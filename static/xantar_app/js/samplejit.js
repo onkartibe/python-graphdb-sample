@@ -1,14 +1,20 @@
 var labelType, useGradients, nativeTextSupport, animate;
+url_map = {
+    '0':'country_data/',
+    '1':'product_data/',
+    '2':'adv_data/',
+    '3':'adv_data_data/'
+};
 
 (function() {
     data = {
-        country_id : 42,
+        country_id : 2509,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     var csrftoken = getCookie('csrftoken');
     $.ajax({
       type: 'POST',
-      url: 'country_data/',
+      url: '/',
       data: JSON.stringify(data),
       beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -59,18 +65,20 @@ function getCookie(name) {
 function init() {
     //init data
     var json = {
-        id: "190_0",
+        id: "2905",
         name: "US",
         children: [{
-            id: "306208_1",
+            id: "2044",
             name: "US &amp;Chevrolet",
             data: {
+                type:"1",
                 relation: "<h4>US &amp; Chevrolet</h4><b>Connections:</b><ul><li>US <div>(relation: has)</div></li><li>Chevrolet <div>(relation: has)</div></li></ul>"
             },
             children: [{
-                id: "84_2",
+                id: "2925",
                 name: "Chevrolet",
                 data: {
+                    type:"2",
                     relation: "<h4>Chevrolet</h4><b>Connections:</b><ul><li>US &amp; Chevrolet <div>(relation: has)</div></li></ul>"
                 },
                 children: []
@@ -539,6 +547,7 @@ function init() {
             }]
         }],
         data: {
+            type: "0",
             relation: "<h4>US</h4><b>Connections:</b><ul><li>US &amp; CHEVROLET <div>(relation: has)</div></li><li>FORD &amp; US <div>(relation: has)</div></li><li>HYUNDAI <div>(relation: has)</div></li><li>CHERY<div>(relation: has)</div></li><li>SMART/AUTO <div>(relation: has)</div></li><li>CHEVROLET/SONIC AUTO <div>(relation: has)</div></li><li>SMART/STAND <div>(relation: has)</div></li><li>CHERY FACE <div>(relation: has)</div></li><li>SMART LUXURY <div>(relation: has)</div></li></ul>"
         }
     };
@@ -587,7 +596,23 @@ function init() {
             domElement.onclick = function() {
                 rgraph.onClick(node.id, {
                     onComplete: function() {
-                        Log.write("");
+                        data = {
+                            node_id : node.id,
+                            csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                        }
+                        var csrftoken = getCookie('csrftoken');
+                        $.ajax({
+                            url: url_map[node.data.type],
+                            type: 'POST',
+                            data: JSON.stringify(data),
+                            beforeSend: function(xhr, settings){
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                $jit.id('inner-details').innerHTML = data;
+                                }
+                            });
                     }
                 });
             };
@@ -626,8 +651,26 @@ function init() {
     rgraph.compute('end');
     rgraph.fx.animate({
         modes: ['polar'],
-        duration: 2000
+        duration: 2
     });
+    rgraph.refresh();
+
+    setTimeout(function(){
+        rgraph.graph.addAdjacence({  
+            'id': '43661_28'  
+        }, {  
+            'id': '0000000000000000'  
+        }, null);
+        rgraph.graph.addAdjacence({  
+            'id': '43661_28'  
+        }, {  
+            'id': '22222222'  
+        }, null);
+        console.log('asda')
+        rgraph.refresh();
+
+    }, 3000);
+
     //end
     //append information about the root relations in the right column
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
