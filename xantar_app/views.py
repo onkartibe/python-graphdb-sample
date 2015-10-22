@@ -12,6 +12,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.views.decorators.http import condition
 
+
 #for catching ObjectDoesNotExist exceptions
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -153,16 +154,29 @@ def get_data(country_id):
 		yield data
 		
 
-class ManageCountryData(TemplateView):
+class ManageInitialData(TemplateView):
 	
 	template_name = "xantar_app/index.html"
 
-	@condition(etag_func=None)
+	@never_cache
+	@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 	def post(self, request, *args, **kwargs):
 		prod_data = []
 		data = json.loads(request.body)
 		country_id = data['country_id']
 		return HttpResponse(get_data(country_id))
+
+class ManageCountryData(TemplateView):
+	
+	template_name = "xantar_app/index.html"
+
+	@never_cache
+	@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+	def post(self, request, *args, **kwargs):
+		request_data = json.loads(request.body)
+		data = Country.objects.get(id=int(request_data['node_id']))
+		return HttpResponse(data)
+
 
 class ManageProductData(TemplateView):
 
@@ -170,9 +184,22 @@ class ManageProductData(TemplateView):
 
 	@never_cache
 	@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-	def post(self, *args, **kwargs):
-		data = {}
+	def post(self, request, *args, **kwargs):
+		request_data = json.loads(request.body)
+		data = Product.objects.get(id=int(request_data['node_id']))
 		return HttpResponse(json.dumps(data))
+
+class ManageAdvertisorData(TemplateView):
+
+	template_name = "xantar_app/index.html"
+
+	@never_cache
+	@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+	def post(self, request, *args, **kwargs):
+		request_data = json.loads(request.body)
+		data = AdvertisorData.objects.get(id=int(request_data['node_id']))
+		return HttpResponse(data)
+
 
 class ManageAdvertisementData(TemplateView):
 
@@ -180,6 +207,6 @@ class ManageAdvertisementData(TemplateView):
 
 	@never_cache
 	@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-	def post(self, *args, **kwargs):
+	def post(self, request, *args, **kwargs):
 		data = {}
 		return HttpResponse(json.dumps(data))
