@@ -19,8 +19,13 @@ url_map = {
       beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
-      success: function(data, status) {
+      success: function(data) {
         console.log(data);
+        $('#eachnode-details').empty();
+        $('#eachnode-head').empty();
+        $('#eachnode-head').append("Node Name "+"Not Implemeneted"+"<br>");
+        $('#eachnode-head').append('Node Type'+ " : " + "CountryData"+"<br>");
+        $('#eachnode-details').append('Product Count'+ " : " + data['product_count'] +"<br>");
       }
     });
 
@@ -65,7 +70,7 @@ function getCookie(name) {
 function init() {
     //init data
     var json = {
-        id: "2905",
+        id: "2509",
         name: "US",
         children: [{
             id: "2044",
@@ -554,7 +559,7 @@ function init() {
     //end
 
     //init RGraph
-    var rgraph = new $jit.RGraph({
+    rgraph = new $jit.RGraph({
         //Where to append the visualization
         injectInto: 'infovis',
         //Optional: create a background canvas that plots
@@ -609,9 +614,39 @@ function init() {
                                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
                             },
                             success: function (data) {
-                                console.log(data);
-                                $jit.id('inner-details').innerHTML = data;
+                                $('#eachnode-details').empty();
+                                $('#eachnode-head').empty();
+                                if (node.data.type==0){
+                                    $('#eachnode-head').append("Node Name "+node.name+"<br>");
+                                    $('#eachnode-head').append('Node Type'+ " : " + "CountryData"+"<br>");
+                                    $('#eachnode-details').append('Product Count'+ " : " + data['product_count'] +"<br>");
                                 }
+                                else if (node.data.type==1){
+                                    $('#eachnode-head').append("Node Name  "+node.name+"<br>");
+                                    $('#eachnode-head').append('Node Type'+ " : " + "ProductData"+"<br>");
+                                    $('#eachnode-details').append('BrandName'+ " : " + data['product_brand_name'] +"<br>");
+                                    $('#eachnode-details').append('BrandCode'+ " : " + data['product_brand_code'] +"<br>");
+                                    $('#eachnode-details').append('Advertisor Count'+ " : " + data['advertisor_count'] +"<br>");
+                                }
+                                else if (node.data.type==2){
+                                    $('#eachnode-head').append("Node Name  "+node.name+"<br>");
+                                    $('#eachnode-head').append('Node Type'+ " : " + "AdvertisorData"+"<br>");
+                                    $('#eachnode-details').append('Advertisor Code'+ " : " + data['advertisor_code'] +"<br>");
+                                    $('#eachnode-details').append('Advertisor Name'+ " : " + data['advertisor_name'] +"<br>");
+                                    $('#eachnode-details').append('Advertisment Count'+ " : " + data['advertisementdata_count'] +"<br>");
+                                }
+                                else{
+                                    $('#eachnode-head').append("Node Name "+node.name+"<br>");
+                                    $('#eachnode-head').append('Node Type'+ " : " + "AdvertismentData"+"<br>");
+                                    $('#eachnode-details').append('Data Month'+ " : " + data['data_month']+"<br>");
+                                    $('#eachnode-details').append('Data Factor'+ ": " + data['data_factor'] +"<br>");
+                                    $('#eachnode-details').append('Currency'+ ": " + data['currency'] +"<br>");
+                                    $('#eachnode-details').append('Level1 Code'+ " : " + data['level1_code'] +"<br>");
+                                    $('#eachnode-details').append('Level2 Code'+ " : " + data['level2_code'] +"<br>");
+                                    $('#eachnode-details').append('Level3 Code'+ " : " + data['level3_code'] +"<br>");
+                                    $('#eachnode-details').append('Level3 Name'+ " : " + data['level3_name'] +"<br>");
+                                }
+                            }
                             });
                     }
                 });
@@ -655,23 +690,29 @@ function init() {
     });
     rgraph.refresh();
 
+
     setTimeout(function(){
         rgraph.graph.addAdjacence({  
             'id': '43661_28'  
         }, {  
-            'id': '0000000000000000'  
+            'id': '12312312'  
         }, null);
+        rgraph.refresh();
         rgraph.graph.addAdjacence({  
             'id': '43661_28'  
         }, {  
             'id': '22222222'  
         }, null);
-        console.log('asda')
         rgraph.refresh();
-
     }, 3000);
 
     //end
     //append information about the root relations in the right column
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
 }
+
+
+$('[data-toggle=tab1]').click(function(){
+    $('#tab2').hide();
+    $('#tab1').show();
+})

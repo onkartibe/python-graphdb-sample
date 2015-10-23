@@ -89,6 +89,13 @@ a {
     text-align: left;
 }
 
+.details{
+    text-align: left;
+}
+
+.custcol{
+    border: 1px solid black;
+}
 #log {
     position:absolute;
     top:10px;
@@ -150,4 +157,17 @@ a {
     position: fixed;
     width: 9%;
     z-index: 5;
+}
+
+.well,
+.nav-tabs li a{
+    border-style : none;
+    border-radius: 0px !important;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.well:hover,
+.nav-tabs li a:hover{
+    opacity: 1;
 }

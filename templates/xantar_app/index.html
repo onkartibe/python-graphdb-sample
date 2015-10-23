@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="static/xantar_app/css/base.css" />
 </head>
 
-<body onload="init();">
+<body onload="init();" id="body">
     {% csrf_token %}
     <div class="row">
         <div class="col-md-12">
@@ -19,13 +19,42 @@
             </div>
         </div>
         <div class="col-md-4 pull-right topposition">
-            <div id="chart_div" class="well">
-            </div>
-            <div id="nodedetails" class="well">
-                <h6 align="left"><b>Node Details</b></h6>
-                <div id="inner-details"></div>
-            </div>
-        </div>
+            <div class="row">
+                <div id="chart_div" class="well">
+                </div>
+                    <div class="tabbable">
+                       <ul class="nav nav-tabs">
+                          <li class="active"><a href="#tab1" data-toggle="tab">Relationship Details</a></li>
+                          <li ><a href="#tab2" data-toggle="tab">Node Details</a></li>
+                       </ul>
+                       <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                                <div id="nodedetails" class="well">
+                                    <h6 align="left"><b>Relationship Details</b></h6>
+                                    <div id="inner-details">
+                                    </div>
+                                </div>
+                            </div>        
+                            <div class="tab-pane" id="tab2">
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-6 custcol">
+                                            <div id="eachnode-img">
+                                                <img src="static/xantar_app/images/car.jpg" height="36">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 custcol">
+                                            <div id="eachnode-head" class="details">
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div id="eachnode-details" class="details"></div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="static/xantar_app/js/samplejit.js"></script>
