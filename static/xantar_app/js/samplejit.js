@@ -716,3 +716,8 @@ $('[data-toggle=tab1]').click(function(){
     $('#tab2').hide();
     $('#tab1').show();
 })
+
+$('[data-toggle=tab2]').click(function(){
+    $('#tab1').hide();
+    $('#tab2').show();
+})
