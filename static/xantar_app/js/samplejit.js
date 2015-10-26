@@ -1,32 +1,32 @@
 var labelType, useGradients, nativeTextSupport, animate;
 url_map = {
-    '0':'country_data/',
-    '1':'product_data/',
-    '2':'adv_data/',
-    '3':'adv_data_data/'
+    '0': 'country_data/',
+    '1': 'product_data/',
+    '2': 'adv_data/',
+    '3': 'adv_data_data/'
 };
 
 (function() {
     data = {
-        country_id : 2509,
+        country_id: 2509,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     var csrftoken = getCookie('csrftoken');
     $.ajax({
-      type: 'POST',
-      url: '/',
-      data: JSON.stringify(data),
-      beforeSend: function(xhr, settings){
+        type: 'POST',
+        url: '/',
+        data: JSON.stringify(data),
+        beforeSend: function(xhr, settings) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
-      success: function(data) {
-        console.log(data);
-        $('#eachnode-details').empty();
-        $('#eachnode-head').empty();
-        $('#eachnode-head').append("Node Name "+"Not Implemeneted"+"<br>");
-        $('#eachnode-head').append('Node Type'+ " : " + "CountryData"+"<br>");
-        $('#eachnode-details').append('Product Count'+ " : " + data['product_count'] +"<br>");
-      }
+        success: function(data) {
+            console.log(data);
+            $('#eachnode-details').empty();
+            $('#eachnode-head').empty();
+            $('#eachnode-head').append("Node Name " + "Not Implemeneted" + "<br>");
+            $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
+            $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
+        }
     });
 
     var ua = navigator.userAgent,
@@ -76,19 +76,19 @@ function init() {
             id: "2044",
             name: "US &amp;Chevrolet",
             data: {
-                type:"1",
+                type: "1",
                 relation: "<h4>US &amp; Chevrolet</h4><b>Connections:</b><ul><li>US <div>(relation: has)</div></li><li>Chevrolet <div>(relation: has)</div></li></ul>"
             },
             children: [{
                 id: "2925",
                 name: "Chevrolet",
                 data: {
-                    type:"2",
+                    type: "2",
                     relation: "<h4>Chevrolet</h4><b>Connections:</b><ul><li>US &amp; Chevrolet <div>(relation: has)</div></li></ul>"
                 },
                 children: []
             }]
-            }, {
+        }, {
             id: "107877_3",
             name: "FORD &amp; US",
             data: {
@@ -102,7 +102,7 @@ function init() {
                 },
                 children: []
             }]
-            }, {
+        }, {
             id: "236797_5",
             name: "HYUNDAI",
             data: {
@@ -115,9 +115,10 @@ function init() {
                     relation: "<h4>GENERAL MOTORS</h4><b>Connections:</b><ul><li>HYUNDAI <div>(relation: advertise_by)</div></li></ul>"
                 },
                 children: [{
-                    id: "14581_7",
+                    id: "7142",
                     name: "ADV1",
                     data: {
+                        type: "3",
                         relation: "<h4>ADV1</h4><b>Connections:</b><ul><li>HYUNDAI <div>(relation: has)</div></li></ul>"
                     },
                     children: []
@@ -602,7 +603,7 @@ function init() {
                 rgraph.onClick(node.id, {
                     onComplete: function() {
                         data = {
-                            node_id : node.id,
+                            node_id: node.id,
                             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
                         }
                         var csrftoken = getCookie('csrftoken');
@@ -610,44 +611,73 @@ function init() {
                             url: url_map[node.data.type],
                             type: 'POST',
                             data: JSON.stringify(data),
-                            beforeSend: function(xhr, settings){
+                            beforeSend: function(xhr, settings) {
                                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
                             },
-                            success: function (data) {
+                            success: function(data) {
+                                Log.write("");
                                 $('#eachnode-details').empty();
                                 $('#eachnode-head').empty();
-                                if (node.data.type==0){
-                                    $('#eachnode-head').append("Node Name "+node.name+"<br>");
-                                    $('#eachnode-head').append('Node Type'+ " : " + "CountryData"+"<br>");
-                                    $('#eachnode-details').append('Product Count'+ " : " + data['product_count'] +"<br>");
-                                }
-                                else if (node.data.type==1){
-                                    $('#eachnode-head').append("Node Name  "+node.name+"<br>");
-                                    $('#eachnode-head').append('Node Type'+ " : " + "ProductData"+"<br>");
-                                    $('#eachnode-details').append('BrandName'+ " : " + data['product_brand_name'] +"<br>");
-                                    $('#eachnode-details').append('BrandCode'+ " : " + data['product_brand_code'] +"<br>");
-                                    $('#eachnode-details').append('Advertisor Count'+ " : " + data['advertisor_count'] +"<br>");
-                                }
-                                else if (node.data.type==2){
-                                    $('#eachnode-head').append("Node Name  "+node.name+"<br>");
-                                    $('#eachnode-head').append('Node Type'+ " : " + "AdvertisorData"+"<br>");
-                                    $('#eachnode-details').append('Advertisor Code'+ " : " + data['advertisor_code'] +"<br>");
-                                    $('#eachnode-details').append('Advertisor Name'+ " : " + data['advertisor_name'] +"<br>");
-                                    $('#eachnode-details').append('Advertisment Count'+ " : " + data['advertisementdata_count'] +"<br>");
-                                }
-                                else{
-                                    $('#eachnode-head').append("Node Name "+node.name+"<br>");
-                                    $('#eachnode-head').append('Node Type'+ " : " + "AdvertismentData"+"<br>");
-                                    $('#eachnode-details').append('Data Month'+ " : " + data['data_month']+"<br>");
-                                    $('#eachnode-details').append('Data Factor'+ ": " + data['data_factor'] +"<br>");
-                                    $('#eachnode-details').append('Currency'+ ": " + data['currency'] +"<br>");
-                                    $('#eachnode-details').append('Level1 Code'+ " : " + data['level1_code'] +"<br>");
-                                    $('#eachnode-details').append('Level2 Code'+ " : " + data['level2_code'] +"<br>");
-                                    $('#eachnode-details').append('Level3 Code'+ " : " + data['level3_code'] +"<br>");
-                                    $('#eachnode-details').append('Level3 Name'+ " : " + data['level3_name'] +"<br>");
+                                if (node.data.type == 0) {
+                                    $('#eachnode-head').append("Node Name " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
+                                    $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
+                                } else if (node.data.type == 1) {
+                                    $('#eachnode-head').append("Node Name  " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "ProductData" + "<br>");
+                                    $('#eachnode-details').append('BrandName' + " : " + data['product_brand_name'] + "<br>");
+                                    $('#eachnode-details').append('BrandCode' + " : " + data['product_brand_code'] + "<br>");
+                                    $('#eachnode-details').append('Advertisor Count' + " : " + data['advertisor_count'] + "<br>");
+                                } else if (node.data.type == 2) {
+                                    $('#eachnode-head').append("Node Name  " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "AdvertisorData" + "<br>");
+                                    $('#eachnode-details').append('Advertisor Code' + " : " + data['advertisor_code'] + "<br>");
+                                    $('#eachnode-details').append('Advertisor Name' + " : " + data['advertisor_name'] + "<br>");
+                                    $('#eachnode-details').append('Advertisment Count' + " : " + data['advertisementdata_count'] + "<br>");
+                                } else {
+                                    var data_old = google.visualization.arrayToDataTable([
+                                        ['Local Spend', data['currency'] || 'n/a'],
+                                        ['Newspapers', 0],
+                                        ['Magazines', 0],
+                                        ['TV', 0],
+                                        ['Radio', 0],
+                                        ['Cinema', 0],
+                                        ['Outdoor', 0]
+                                    ]);
+
+                                    chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                                    new_data = google.visualization.arrayToDataTable([
+                                        ['Local Spend', data['currency'] || '0'],
+                                        ['Newspapers', data['newspapers_figure'] || 0],
+                                        ['Magazines', data['magazines_figure'] || 0],
+                                        ['TV', data['tv_figure'] || 0],
+                                        ['Radio', data['radio_figure'] || 0],
+                                        ['Cinema', data['cinema_figure'] || 0],
+                                        ['Outdoor', data['outdoor_figure'] || 0]
+                                    ]);
+
+                                    var options = {
+                                        animation: {
+                                            duration: 1000,
+                                            easing: 'inAndOut',
+                                        },
+                                    };
+
+                                    chart.draw(data_old, options);
+                                    chart.draw(new_data, options);
+
+                                    $('#eachnode-head').append("Node Name " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "AdvertismentData" + "<br>");
+                                    $('#eachnode-details').append('Data Month' + " : " + data['data_month'] + "<br>");
+                                    $('#eachnode-details').append('Data Factor' + ": " + data['data_factor'] + "<br>");
+                                    $('#eachnode-details').append('Currency' + ": " + data['currency'] + "<br>");
+                                    $('#eachnode-details').append('Level1 Code' + " : " + data['level1_code'] + "<br>");
+                                    $('#eachnode-details').append('Level2 Code' + " : " + data['level2_code'] + "<br>");
+                                    $('#eachnode-details').append('Level3 Code' + " : " + data['level3_code'] + "<br>");
+                                    $('#eachnode-details').append('Level3 Name' + " : " + data['level3_name'] + "<br>");
                                 }
                             }
-                            });
+                        });
                     }
                 });
             };
@@ -691,17 +721,17 @@ function init() {
     rgraph.refresh();
 
 
-    setTimeout(function(){
-        rgraph.graph.addAdjacence({  
-            'id': '43661_28'  
-        }, {  
-            'id': '12312312'  
+    setTimeout(function() {
+        rgraph.graph.addAdjacence({
+            'id': '43661_28'
+        }, {
+            'id': '12312312'
         }, null);
         rgraph.refresh();
-        rgraph.graph.addAdjacence({  
-            'id': '43661_28'  
-        }, {  
-            'id': '22222222'  
+        rgraph.graph.addAdjacence({
+            'id': '43661_28'
+        }, {
+            'id': '22222222'
         }, null);
         rgraph.refresh();
     }, 3000);
@@ -710,14 +740,3 @@ function init() {
     //append information about the root relations in the right column
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
 }
-
-
-$('[data-toggle=tab1]').click(function(){
-    $('#tab2').hide();
-    $('#tab1').show();
-})
-
-$('[data-toggle=tab2]').click(function(){
-    $('#tab1').hide();
-    $('#tab2').show();
-})

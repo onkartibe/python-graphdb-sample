@@ -224,6 +224,7 @@ class ManageAdvertisementData(TemplateView):
     @never_cache
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
     def post(self, request, *args, **kwargs):
+        request_data = json.loads(request.body)
         data = AdvertisementData.objects.get(id=int(request_data['node_id']))
         response_dict = {'data_month':data.data_month,
                         'data_factor':data.data_factor,
@@ -231,5 +232,11 @@ class ManageAdvertisementData(TemplateView):
                         'level1_code':data.level1_code,
                         'level2_code':data.level2_code,
                         'level3_code':data.level3_code,
-                        'level3_name':data.level3_name}
+                        'level3_name':data.level3_name,
+                        'newspapers_figure':data.newspapers_figure,
+                        'radio_figure':data.radio_figure,
+                        'outdoor_figure':data.outdoor_figure,
+                        'tv_figure':data.tv_figure,
+                        'cinema_figure':data.cinema_figure,
+                        'magazines_figure':data.magazines_figure}
         return HttpResponse(json.dumps(response_dict), content_type='application/json')

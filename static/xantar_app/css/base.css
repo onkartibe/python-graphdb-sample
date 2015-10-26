@@ -85,16 +85,19 @@ a {
 #inner-details {
     font-size:0.8em;
     list-style:none;
-    margin:7px;
     text-align: left;
+    overflow-y: scroll;
+    width: 123%;
+    height: 45%;
 }
 
 .details{
     text-align: left;
+    padding-top: 2%;
 }
 
 .custcol{
-    border: 1px solid black;
+    border: 1px solid #B7AAAA;
 }
 #log {
     position:absolute;
@@ -164,10 +167,110 @@ a {
     border-style : none;
     border-radius: 0px !important;
     opacity: 0.8;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease-out;
+    background-color: white;
+    margin-bottom: 0px;
+
 }
 
 .well:hover,
 .nav-tabs li a:hover{
     opacity: 1;
+}
+
+
+.rubix-panel-container {
+    overflow: ;
+    display: block;
+    height: auto;
+    background: #fff;
+    margin-top: 0%;
+    position: absolute;
+}
+
+.rubix-panel-header[class*=bg-] {
+    margin-bottom: 12.5px;
+}
+
+.bg-lightpurple {
+    background: ANTIQUEWHITE;
+}
+
+.rubix-panel-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.rubix-panel-header[class*=bg-] {
+    margin-bottom: 12.5px;
+}
+.container-fluid {
+    padding-left: 25px;
+    margin-right:0px;
+    padding-right: 0px;
+}
+.nav-purple.nav-tabs {
+    border-color: #E0AA63;
+}
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+.nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+.tabs>li:first-child {
+    margin-left: 25px;
+}
+.nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+}
+.nav>li, .nav>li>a {
+    position: relative;
+    display: block;
+}
+.nav-tabs>li>a{
+     color: black;
+}
+ 
+.nav-tabs>li.active>a:focus, 
+.nav-tabs>li.active>a:hover {
+    color: black;
+    cursor: auto;
+}
+
+#inner-details::-webkit-scrollbar {
+    width: 7px;
+}
+
+#inner-details::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 12px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+#inner-details::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.sidecontainer{
+    opacity: .7;
+    transition: opacity 0.3s ease-out;
+}
+.sidecontainer:hover{
+    opacity: 2;
+}
+
+.chart_div{
+    transition: opacity 0.3s ease-out;
 }

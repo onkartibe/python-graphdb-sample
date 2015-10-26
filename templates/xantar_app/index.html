@@ -18,43 +18,73 @@
                 <div id="log"></div>
             </div>
         </div>
-        <div class="col-md-4 pull-right topposition">
+        <div class="col-md-4 pull-right sidecontainer" style="height: 100%;
+">
             <div class="row">
-                <div id="chart_div" class="well">
-                </div>
-                    <div class="tabbable">
-                       <ul class="nav nav-tabs">
-                          <li class="active"><a href="#tab1" data-toggle="tab">Relationship Details</a></li>
-                          <li ><a href="#tab2" data-toggle="tab">Node Details</a></li>
-                       </ul>
-                       <div class="tab-content">
-                            <div class="tab-pane active" id="tab1">
+               <div class="rubix-panel-container" style="z-index:9999995;overflow:;display:block;height:auto;" data-reactid="">
+                <div class="rubix-panel-header bg-lightpurple fg-white" data-reactid="">
+                    <div class="rubix-grid container-fluid" style="z-index:9999977;" data-reactid="">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h3 data-reactid="">
+                                    Graph Details
+                                </h3>
+                            </div>
+                            <div class="col-xs-12">
+                                <div id="chart_div" class="well">
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                        <ul class="nav nav-tabs nav-purple" role="tablist">
+                            <li class="b-tab active">
+                                <a href="#id_relation" role="tab" data-toggle="tab">Node Relationships</a>
+                            </li>
+                            <li class="b-tab">
+                                <a href="#id_details" role="tab" data-toggle="tab">Node Details</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="id_relation">
                                 <div id="nodedetails" class="well">
-                                    <h6 align="left"><b>Relationship Details</b></h6>
-                                    <div id="inner-details">
+                                    <div class="row">
+                                        <div class="col-xs-10">
+                                            <h6 align="left"><b>Relationship Details</b></h6>
+                                            <div id="inner-details">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <div class="scrollbar" id="style3">
+                                                <div class="force-overflow"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="tab2">
+                            <div class="tab-pane fade" id="id_details">
                                 <div class="well">
                                     <div class="row">
                                         <div class="col-md-6 custcol">
                                             <div id="eachnode-img">
-                                                <img src="static/xantar_app/images/car.jpg" height="36">
+                                                <img src="static/xantar_app/images/car.jpg" height="50" width="50">
                                             </div>
                                         </div>
-                                        <div class="col-md-6 custcol">
+                                        <div class="col-md-6 ">
                                             <div id="eachnode-head" class="details">
                                             </div>
                                         </div>
                                     </div>  
                                     <div class="row">
-                                        <div id="eachnode-details" class="details"></div>
+                                        <div id="eachnode-details" class="details">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                       </div>
-                    </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="static/xantar_app/js/samplejit.js"></script>
