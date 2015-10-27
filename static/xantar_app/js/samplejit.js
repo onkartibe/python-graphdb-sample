@@ -8,7 +8,7 @@ url_map = {
 
 (function() {
     data = {
-        country_id: 2509,
+        country_id: 7146,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     var csrftoken = getCookie('csrftoken');
@@ -70,17 +70,17 @@ function getCookie(name) {
 function init() {
     //init data
     var json = {
-        id: "2509",
+        id: "7146",
         name: "US",
         children: [{
-            id: "2044",
+            id: "7145",
             name: "US &amp;Chevrolet",
             data: {
                 type: "1",
                 relation: "<h4>US &amp; Chevrolet</h4><b>Connections:</b><ul><li>US <div>(relation: has)</div></li><li>Chevrolet <div>(relation: has)</div></li></ul>"
             },
             children: [{
-                id: "2925",
+                id: "7144",
                 name: "Chevrolet",
                 data: {
                     type: "2",
@@ -115,7 +115,7 @@ function init() {
                     relation: "<h4>GENERAL MOTORS</h4><b>Connections:</b><ul><li>HYUNDAI <div>(relation: advertise_by)</div></li></ul>"
                 },
                 children: [{
-                    id: "7142",
+                    id: "7143",
                     name: "ADV1",
                     data: {
                         type: "3",
@@ -619,6 +619,7 @@ function init() {
                                 $('#eachnode-details').empty();
                                 $('#eachnode-head').empty();
                                 if (node.data.type == 0) {
+                                    updatebubblechart();
                                     $('#eachnode-head').append("Node Name " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
                                     $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
@@ -739,4 +740,36 @@ function init() {
     //end
     //append information about the root relations in the right column
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
+}
+
+function updatebubblechart()
+{
+    google.load('visualization', '1', {packages: ['corechart']});
+    data = {
+        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+    }
+    var options = {
+    title: 'Region Wise Marketing Activity Rate',
+    hAxis: {title: 'Advertisor Count',viewWindow:{min:0}},
+    chartArea: {width: '80%',height:'120'},
+    vAxis: {title: 'Product Count',viewWindow:{max:500, min:10}},
+    bubble: {textStyle: {fontSize: 8}},
+    sizeAxis:  {minValue: 0,  maxSize: 20},
+    explorer:{actions: ['dragToZoom','rightClickToReset']}
+    };
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+        type: 'POST',
+        url: '/get/country/count/',
+        data: JSON.stringify(data),
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function(data) {
+            new_data = google.visualization.arrayToDataTable(data)
+            var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+            chart.draw(new_data, options);
+            console.log(data);
+        }
+    });
 }

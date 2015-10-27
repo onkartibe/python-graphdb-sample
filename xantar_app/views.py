@@ -75,6 +75,7 @@ def create_csvdata(filepath):
 
         document.seek(0, 0)
         for y_index, row in enumerate(reader):
+            adv_flag, prod_flag = False, False 
             if y_index > 0:
                 adv_data = {}
 
@@ -109,16 +110,20 @@ def create_csvdata(filepath):
                 try:
                     adv_obj = AdvertisorData.objects.get(
                         adv_code='n/a', adv_name=row[10])
+                    adv_flag = False
                 except:
                     adv_obj = AdvertisorData.objects.create(
                         adv_code='n/a', adv_name=row[10])
+                    adv_flag = True
 
                 try:
                     product_obj = Product.objects.get(brand_code=base_brand_data[
                             row[11].strip().replace('"', '')], brand_name=row[11])
+                    prod_flag = False
                 except:
                     product_obj = Product.objects.create(brand_code=base_brand_data[
                             row[11].strip().replace('"', '')], brand_name=row[11])
+                    prod_flag = True
                 
                 try:
                     country_obj = Country.objects.get(country=row[2])
@@ -126,10 +131,12 @@ def create_csvdata(filepath):
                     country_obj = Country.objects.create(country=row[2])
 
 
-                country_obj.prod_data.add(product_obj)
+                if prod_flag:
+                    country_obj.prod_data.add(product_obj)
                 country_obj.save()
 
-                product_obj.adv_data.add(adv_obj)
+                if adv_flag:
+                    product_obj.adv_data.add(adv_obj)
                 product_obj.save()
 
                 adv_obj.advr_data.add(ad_data_obj)
@@ -240,3 +247,22 @@ class ManageAdvertisementData(TemplateView):
                         'cinema_figure':data.cinema_figure,
                         'magazines_figure':data.magazines_figure}
         return HttpResponse(json.dumps(response_dict), content_type='application/json')
+
+
+class ManageMarketingActivityData(TemplateView):
+    template_name = "xantar_app/index.html"
+
+    @never_cache
+    @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+    def post(self, request, *args, **kwargs):
+        request_data = json.loads(request.body)
+        data = [["Country", "Product", "Advertisor"]]
+        temp =[]
+        adv_count =[]
+        for each in Country.objects.all():
+            temp = []
+            for neach in each.prod_data.all():
+                adv_count.append(neach.adv_data.all().count())
+            temp= [each.country,each.prod_data.all().count(),sum(adv_count)]
+            data.append(temp)
+        return HttpResponse(json.dumps(data), content_type='application/json')
