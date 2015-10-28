@@ -8,5 +8,5 @@ urlpatterns = patterns('xantar_app.urls',
                    url(r'^product_data/$', ManageProductData.as_view()),
                    url(r'^adv_data/$', ManageAdvertisorData.as_view()),
                    url(r'^adv_data_data/$', ManageAdvertisementData.as_view()),
-                   url(r'^get/country/count/', ManageMarketingActivityData.as_view()),
+                   url(r'^get/country/details/', ManageMarketingActivityData.as_view()),
             ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

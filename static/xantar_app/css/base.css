@@ -1,9 +1,9 @@
 html, body {
     margin:0;
     padding:0;
-    font-family: "Lucida Grande", Verdana;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
     font-size: 0.9em;
-    text-align: center;
     background-color:black;
 }
 
@@ -154,10 +154,10 @@ a {
 }
 
 .logoimg {
-    margin-left: -77px;
+    margin-left: 84%;
     margin-top: 1%;
     opacity: 0.8;
-    position: fixed;
+    position: absolute;
     width: 9%;
     z-index: 5;
 }
@@ -271,6 +271,127 @@ ul, menu, dir {
     opacity: 2;
 }
 
-.chart_div{
+#chart_div{
     transition: opacity 0.3s ease-out;
+    height: 35%;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+  
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+.text-center {
+    margin-top: 20%;
+}
+.countrylist {
+    margin-left: 86%;
+    position: fixed;
+    margin-top: 47.5%;
+    width: auto;
+    border: 0px solid #ccc;
+    border-radius: 0px;
+    font-size: 11px;
+    height: 33px;
+}
+.app-vertical-item {
+    margin-top: 46.5%;
+    margin-left: 63.5%;
+    transform: translateZ(0);
+}
+.widget-zoom-button.widget-zoom-in {
+    top: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.widget-zoom-button.widget-zoom-out {
+    bottom: -1px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.widget-zoom-button {
+    background-color: rgba(255,255,255,1);
+    border-radius: 2px;
+    display: block;
+    height: 29px;
+    left: 0px;
+    overflow: hidden;
+    position: absolute;
+    cursor: pointer;
+    width: 29px;
+    z-index: 2;
+    -webkit-appearance: button;
+    box-sizing: border-box;
+    transition: background-color 0.16s ease-out;
+}
+.widget-zoom-button.widget-zoom-in:hover .widget-zoom-icon {
+    background-position: -30px 0;
+}
+.widget-zoom-button.widget-zoom-in .widget-zoom-icon {
+    background-position: 0 0;
+}
+.widget-zoom-button .widget-zoom-icon {
+    background: transparent url(/static/xantar_app/images/widget-zoom-icon.png) 0 0 no-repeat;
+    background-size: 120px 30px;
+    display: block;
+    height: 15px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+    width: 15px;
+}
+.widget-zoom-button.widget-zoom-out .widget-zoom-icon {
+    background-position: 0 -15px;
+}
+.widget-zoom-slider-seek-bar-bootstrap {
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.15);
+    cursor: default;
+}
+.widget-zoom-slider-seek-bar {
+    position: absolute;
+    margin-left: 13px;
+    margin-top: 29px;
+    background-color: rgb(255,255,255);
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+}
+.widget-zoom-slider-scrubber {
+    width: 25px;
+    height: 8px;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -11px;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+    border-radius: 2px;
+}
+.grabbing-cursor {
+    cursor: -webkit-grabbing;
+}
+.noselect {
+    -webkit-user-select: none;
+}
+.widget-zoom.noselect.widget-zoom-slider-invisible {
+    height: 57px;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0);
+}
+.widget-zoom {
+    cursor: pointer;
 }

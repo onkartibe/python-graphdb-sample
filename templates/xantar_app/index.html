@@ -1,7 +1,10 @@
 <html>
 <head>
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/xantar_app/css/base.css" />
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
 </head>
 
 <body onload="init();" id="body">
@@ -10,6 +13,13 @@
         <div class="col-md-12">
             <div style="margin-left: -85%;">
                 <img src="static/xantar_app/images/kantar2.png" alt="Kantar" class="logoimg">
+                <select class="form-control logoimg countrylist">
+                     {% for each in country_list %}
+                      <option class="btn-default" value="{{each}}">
+                      {{each}}
+                      </option>
+                    {% endfor %}
+                </select>
             </div>
             <div id="container">
                 <div id="center-container">
@@ -18,17 +28,16 @@
                 <div id="log"></div>
             </div>
         </div>
-        <div class="col-md-4 pull-right sidecontainer" style="height: 100%;
-">
+        <div class="col-md-4 pull-right sidecontainer" style="height: 100%;">
             <div class="row">
                <div class="rubix-panel-container" style="z-index:9999995;overflow:;display:block;height:auto;" data-reactid="">
                 <div class="rubix-panel-header bg-lightpurple fg-white" data-reactid="">
                     <div class="rubix-grid container-fluid" style="z-index:9999977;" data-reactid="">
                         <div class="row">
                             <div class="col-xs-12">
-                                <h3 data-reactid="">
+                                <h4>
                                     Graph Details
-                                </h3>
+                                </h4>
                             </div>
                             <div class="col-xs-12">
                                 <div id="chart_div" class="well">
@@ -84,6 +93,17 @@
                      </div>
                 </div>
             </div>
+        </div>
+        <div id="zoom" class="app-vertical-item">
+            <div class="widget-zoom noselect widget-zoom-slider-invisible" > 
+            </div>
+            <button aria-label="Zoom in" class="widget-zoom-button widget-zoom-in"> <div class="widget-zoom-icon"></div> 
+            </button>
+            <div class="widget-zoom-slider-seek-bar widget-zoom-slider-seek-bar-bootstrap">
+                <div role="presentation" class="widget-zoom-slider-seek-bar-hit-zone grabbing-cursor">
+                </div> 
+                <a oncontextmenu="return false;" role="slider" tabindex="0" href="javascript:void(0);" class="widget-zoom-slider-scrubber grab-cursor grabbing-cursor" style="display:none"> </a> </div>
+            <button aria-label="Zoom out" class="widget-zoom-button widget-zoom-out"> <div class="widget-zoom-icon"></div> </button>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
