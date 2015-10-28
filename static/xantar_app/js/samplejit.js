@@ -1,27 +1,32 @@
 var labelType, useGradients, nativeTextSupport, animate;
 url_map = {
-    '0':'country_data/',
-    '1':'product_data/',
-    '2':'adv_data/',
-    '3':'adv_data_data/'
+    '0': 'country_data/',
+    '1': 'product_data/',
+    '2': 'adv_data/',
+    '3': 'adv_data_data/'
 };
 
 (function() {
     data = {
-        country_id : 2509,
+        country_id: 7146,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     var csrftoken = getCookie('csrftoken');
     $.ajax({
-      type: 'POST',
-      url: '/',
-      data: JSON.stringify(data),
-      beforeSend: function(xhr, settings){
+        type: 'POST',
+        url: '/',
+        data: JSON.stringify(data),
+        beforeSend: function(xhr, settings) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
-      success: function(data, status) {
-        console.log(data);
-      }
+        success: function(data) {
+            console.log(data);
+            $('#eachnode-details').empty();
+            $('#eachnode-head').empty();
+            $('#eachnode-head').append("Node Name " + "Not Implemeneted" + "<br>");
+            $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
+            $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
+        }
     });
 
     var ua = navigator.userAgent,
@@ -65,25 +70,25 @@ function getCookie(name) {
 function init() {
     //init data
     var json = {
-        id: "2905",
+        id: "7146",
         name: "US",
         children: [{
-            id: "2044",
+            id: "7145",
             name: "US &amp;Chevrolet",
             data: {
-                type:"1",
+                type: "1",
                 relation: "<h4>US &amp; Chevrolet</h4><b>Connections:</b><ul><li>US <div>(relation: has)</div></li><li>Chevrolet <div>(relation: has)</div></li></ul>"
             },
             children: [{
-                id: "2925",
+                id: "7144",
                 name: "Chevrolet",
                 data: {
-                    type:"2",
+                    type: "2",
                     relation: "<h4>Chevrolet</h4><b>Connections:</b><ul><li>US &amp; Chevrolet <div>(relation: has)</div></li></ul>"
                 },
                 children: []
             }]
-            }, {
+        }, {
             id: "107877_3",
             name: "FORD &amp; US",
             data: {
@@ -97,7 +102,7 @@ function init() {
                 },
                 children: []
             }]
-            }, {
+        }, {
             id: "236797_5",
             name: "HYUNDAI",
             data: {
@@ -110,9 +115,10 @@ function init() {
                     relation: "<h4>GENERAL MOTORS</h4><b>Connections:</b><ul><li>HYUNDAI <div>(relation: advertise_by)</div></li></ul>"
                 },
                 children: [{
-                    id: "14581_7",
+                    id: "7143",
                     name: "ADV1",
                     data: {
+                        type: "3",
                         relation: "<h4>ADV1</h4><b>Connections:</b><ul><li>HYUNDAI <div>(relation: has)</div></li></ul>"
                     },
                     children: []
@@ -554,7 +560,7 @@ function init() {
     //end
 
     //init RGraph
-    var rgraph = new $jit.RGraph({
+    rgraph = new $jit.RGraph({
         //Where to append the visualization
         injectInto: 'infovis',
         //Optional: create a background canvas that plots
@@ -597,7 +603,7 @@ function init() {
                 rgraph.onClick(node.id, {
                     onComplete: function() {
                         data = {
-                            node_id : node.id,
+                            node_id: node.id,
                             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
                         }
                         var csrftoken = getCookie('csrftoken');
@@ -605,14 +611,74 @@ function init() {
                             url: url_map[node.data.type],
                             type: 'POST',
                             data: JSON.stringify(data),
-                            beforeSend: function(xhr, settings){
+                            beforeSend: function(xhr, settings) {
                                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
                             },
-                            success: function (data) {
-                                console.log(data);
-                                $jit.id('inner-details').innerHTML = data;
+                            success: function(data) {
+                                Log.write("");
+                                $('#eachnode-details').empty();
+                                $('#eachnode-head').empty();
+                                if (node.data.type == 0) {
+                                    updatebubblechart();
+                                    $('#eachnode-head').append("Node Name " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
+                                    $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
+                                } else if (node.data.type == 1) {
+                                    $('#eachnode-head').append("Node Name  " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "ProductData" + "<br>");
+                                    $('#eachnode-details').append('BrandName' + " : " + data['product_brand_name'] + "<br>");
+                                    $('#eachnode-details').append('BrandCode' + " : " + data['product_brand_code'] + "<br>");
+                                    $('#eachnode-details').append('Advertisor Count' + " : " + data['advertisor_count'] + "<br>");
+                                } else if (node.data.type == 2) {
+                                    $('#eachnode-head').append("Node Name  " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "AdvertisorData" + "<br>");
+                                    $('#eachnode-details').append('Advertisor Code' + " : " + data['advertisor_code'] + "<br>");
+                                    $('#eachnode-details').append('Advertisor Name' + " : " + data['advertisor_name'] + "<br>");
+                                    $('#eachnode-details').append('Advertisment Count' + " : " + data['advertisementdata_count'] + "<br>");
+                                } else {
+                                    var data_old = google.visualization.arrayToDataTable([
+                                        ['Local Spend', data['currency'] || 'n/a'],
+                                        ['Newspapers', 0],
+                                        ['Magazines', 0],
+                                        ['TV', 0],
+                                        ['Radio', 0],
+                                        ['Cinema', 0],
+                                        ['Outdoor', 0]
+                                    ]);
+
+                                    chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+                                    new_data = google.visualization.arrayToDataTable([
+                                        ['Local Spend', data['currency'] || '0'],
+                                        ['Newspapers', data['newspapers_figure'] || 0],
+                                        ['Magazines', data['magazines_figure'] || 0],
+                                        ['TV', data['tv_figure'] || 0],
+                                        ['Radio', data['radio_figure'] || 0],
+                                        ['Cinema', data['cinema_figure'] || 0],
+                                        ['Outdoor', data['outdoor_figure'] || 0]
+                                    ]);
+
+                                    var options = {
+                                        animation: {
+                                            duration: 1000,
+                                            easing: 'inAndOut',
+                                        },
+                                    };
+
+                                    chart.draw(data_old, options);
+                                    chart.draw(new_data, options);
+
+                                    $('#eachnode-head').append("Node Name " + node.name + "<br>");
+                                    $('#eachnode-head').append('Node Type' + " : " + "AdvertismentData" + "<br>");
+                                    $('#eachnode-details').append('Data Month' + " : " + data['data_month'] + "<br>");
+                                    $('#eachnode-details').append('Data Factor' + ": " + data['data_factor'] + "<br>");
+                                    $('#eachnode-details').append('Currency' + ": " + data['currency'] + "<br>");
+                                    $('#eachnode-details').append('Level1 Code' + " : " + data['level1_code'] + "<br>");
+                                    $('#eachnode-details').append('Level2 Code' + " : " + data['level2_code'] + "<br>");
+                                    $('#eachnode-details').append('Level3 Code' + " : " + data['level3_code'] + "<br>");
+                                    $('#eachnode-details').append('Level3 Name' + " : " + data['level3_name'] + "<br>");
                                 }
-                            });
+                            }
+                        });
                     }
                 });
             };
@@ -655,23 +721,55 @@ function init() {
     });
     rgraph.refresh();
 
-    setTimeout(function(){
-        rgraph.graph.addAdjacence({  
-            'id': '43661_28'  
-        }, {  
-            'id': '0000000000000000'  
-        }, null);
-        rgraph.graph.addAdjacence({  
-            'id': '43661_28'  
-        }, {  
-            'id': '22222222'  
-        }, null);
-        console.log('asda')
-        rgraph.refresh();
 
+    setTimeout(function() {
+        rgraph.graph.addAdjacence({
+            'id': '43661_28'
+        }, {
+            'id': '12312312'
+        }, null);
+        rgraph.refresh();
+        rgraph.graph.addAdjacence({
+            'id': '43661_28'
+        }, {
+            'id': '22222222'
+        }, null);
+        rgraph.refresh();
     }, 3000);
 
     //end
     //append information about the root relations in the right column
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
+}
+
+function updatebubblechart()
+{
+    google.load('visualization', '1', {packages: ['corechart']});
+    data = {
+        csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+    }
+    var options = {
+    title: 'Region Wise Marketing Activity Rate',
+    hAxis: {title: 'Advertisor Count',viewWindow:{min:0}},
+    chartArea: {width: '80%',height:'120'},
+    vAxis: {title: 'Product Count',viewWindow:{max:500, min:10}},
+    bubble: {textStyle: {fontSize: 8}},
+    sizeAxis:  {minValue: 0,  maxSize: 20},
+    explorer:{actions: ['dragToZoom','rightClickToReset']}
+    };
+    var csrftoken = getCookie('csrftoken');
+    $.ajax({
+        type: 'POST',
+        url: '/get/country/count/',
+        data: JSON.stringify(data),
+        beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        },
+        success: function(data) {
+            new_data = google.visualization.arrayToDataTable(data)
+            var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+            chart.draw(new_data, options);
+            console.log(data);
+        }
+    });
 }
