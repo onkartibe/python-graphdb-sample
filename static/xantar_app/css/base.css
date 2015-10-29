@@ -1,9 +1,9 @@
 html, body {
     margin:0;
     padding:0;
-    font-family: "Lucida Grande", Verdana;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
     font-size: 0.9em;
-    text-align: center;
     background-color:black;
 }
 
@@ -85,10 +85,20 @@ a {
 #inner-details {
     font-size:0.8em;
     list-style:none;
-    margin:7px;
     text-align: left;
+    overflow-y: scroll;
+    width: 123%;
+    height: 45%;
 }
 
+.details{
+    text-align: left;
+    padding-top: 2%;
+}
+
+.custcol{
+    border: 1px solid #B7AAAA;
+}
 #log {
     position:absolute;
     top:10px;
@@ -144,10 +154,244 @@ a {
 }
 
 .logoimg {
-    margin-left: -77px;
+    margin-left: 84%;
     margin-top: 1%;
     opacity: 0.8;
-    position: fixed;
+    position: absolute;
     width: 9%;
     z-index: 5;
+}
+
+.well,
+.nav-tabs li a{
+    border-style : none;
+    border-radius: 0px !important;
+    opacity: 0.8;
+    transition: opacity 0.3s ease-out;
+    background-color: white;
+    margin-bottom: 0px;
+
+}
+
+.well:hover,
+.nav-tabs li a:hover{
+    opacity: 1;
+}
+
+
+.rubix-panel-container {
+    overflow: ;
+    display: block;
+    height: auto;
+    background: #fff;
+    margin-top: 0%;
+    position: absolute;
+}
+
+.rubix-panel-header[class*=bg-] {
+    margin-bottom: 12.5px;
+}
+
+.bg-lightpurple {
+    background: ANTIQUEWHITE;
+}
+
+.rubix-panel-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.rubix-panel-header[class*=bg-] {
+    margin-bottom: 0.5px;
+}
+.container-fluid {
+    padding-left: 25px;
+    margin-right:0px;
+    padding-right: 0px;
+}
+.nav-purple.nav-tabs {
+    border-color: #E0AA63;
+}
+.nav-tabs {
+    border-bottom: 1px solid #ddd;
+}
+.nav {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+.tabs>li:first-child {
+    margin-left: 25px;
+}
+.nav-tabs>li {
+    float: left;
+    margin-bottom: -1px;
+}
+.nav>li, .nav>li>a {
+    position: relative;
+    display: block;
+}
+.nav-tabs>li>a{
+     color: black;
+}
+ 
+.nav-tabs>li.active>a:focus, 
+.nav-tabs>li.active>a:hover {
+    color: black;
+    cursor: auto;
+}
+
+#inner-details::-webkit-scrollbar {
+    width: 7px;
+}
+
+#inner-details::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 12px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+#inner-details::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.sidecontainer{
+    opacity: .7;
+    transition: opacity 0.3s ease-out;
+}
+.sidecontainer:hover{
+    opacity: 2;
+}
+
+#chart_div{
+    transition: opacity 0.3s ease-out;
+    height: 35%;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -ms-animation: spin .7s infinite linear;
+    -webkit-animation: spinw .7s infinite linear;
+    -moz-animation: spinm .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+  
+@-webkit-keyframes spinw {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@-moz-keyframes spinm {
+    from { -moz-transform: rotate(0deg);}
+    to { -moz-transform: rotate(360deg);}
+}
+.text-center {
+    margin-top: 20%;
+}
+.countrylist {
+    margin-left: 86%;
+    position: fixed;
+    margin-top: 47.5%;
+    width: auto;
+    border: 0px solid #ccc;
+    border-radius: 0px;
+    font-size: 11px;
+    height: 33px;
+}
+.app-vertical-item {
+    margin-top: 46.5%;
+    margin-left: 63.5%;
+    transform: translateZ(0);
+}
+.widget-zoom-button.widget-zoom-in {
+    top: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.widget-zoom-button.widget-zoom-out {
+    bottom: -1px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.widget-zoom-button {
+    background-color: rgba(255,255,255,1);
+    border-radius: 2px;
+    display: block;
+    height: 29px;
+    left: 0px;
+    overflow: hidden;
+    position: absolute;
+    cursor: pointer;
+    width: 29px;
+    z-index: 2;
+    -webkit-appearance: button;
+    box-sizing: border-box;
+    transition: background-color 0.16s ease-out;
+}
+.widget-zoom-button.widget-zoom-in:hover .widget-zoom-icon {
+    background-position: -30px 0;
+}
+.widget-zoom-button.widget-zoom-in .widget-zoom-icon {
+    background-position: 0 0;
+}
+.widget-zoom-button .widget-zoom-icon {
+    background: transparent url(/static/xantar_app/images/widget-zoom-icon.png) 0 0 no-repeat;
+    background-size: 120px 30px;
+    display: block;
+    height: 15px;
+    left: 7px;
+    position: absolute;
+    top: 7px;
+    width: 15px;
+}
+.widget-zoom-button.widget-zoom-out .widget-zoom-icon {
+    background-position: 0 -15px;
+}
+.widget-zoom-slider-seek-bar-bootstrap {
+    background-color: rgba(255,255,255,0.5);
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.15);
+    cursor: default;
+}
+.widget-zoom-slider-seek-bar {
+    position: absolute;
+    margin-left: 13px;
+    margin-top: 29px;
+    background-color: rgb(255,255,255);
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+}
+.widget-zoom-slider-scrubber {
+    width: 25px;
+    height: 8px;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: -11px;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+    border-radius: 2px;
+}
+.grabbing-cursor {
+    cursor: -webkit-grabbing;
+}
+.noselect {
+    -webkit-user-select: none;
+}
+.widget-zoom.noselect.widget-zoom-slider-invisible {
+    height: 57px;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0);
+}
+.widget-zoom {
+    cursor: pointer;
 }

@@ -24,7 +24,7 @@ DATABASES = {
 
 NEO4J_DATABASES = {
     'default' : {
-        'HOST':'neo4j:andy@127.0.0.1',
+        'HOST':'neo4j:neo4j@127.0.0.1',
         'PORT':7474,
         'ENDPOINT':'/db/data/'
     }
@@ -76,6 +76,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
 
 MIDDLEWARE_CLASSES = (
     # 'django.middleware.common.CommonMiddleware',
