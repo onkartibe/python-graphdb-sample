@@ -5,6 +5,15 @@ url_map = {
     '2': 'adv_data/',
     '3': 'adv_data_data/'
 };
+var initial_data_bar_chart =[
+    ['Local Spend', 'n/a'],
+    ['Newspapers', 0],
+    ['Magazines', 0],
+    ['TV', 0],
+    ['Radio', 0],
+    ['Cinema', 0],
+    ['Outdoor', 0]
+];
 
 (function() {
     data = {
@@ -23,12 +32,11 @@ url_map = {
             console.log(data);
             $('#eachnode-details').empty();
             $('#eachnode-head').empty();
-            $('#eachnode-head').append("Node Name " + "Not Implemeneted" + "<br>");
+            $('#eachnode-head').append("Node Name" + " : " +"Not Implemeneted" + "<br>");
             $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
             $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
         }
     });
-
     var ua = navigator.userAgent,
         iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
         typeOfCanvas = typeof HTMLCanvasElement,
@@ -69,6 +77,7 @@ function getCookie(name) {
 
 function init() {
     //init data
+    updatebubblechart();
     var json = {
         id: "7146",
         name: "US",
@@ -619,6 +628,7 @@ function init() {
                                 $('#eachnode-details').empty();
                                 $('#eachnode-head').empty();
                                 if (node.data.type == 0) {
+                                    $('#chart_div').empty();
                                     updatebubblechart();
                                     $('#eachnode-head').append("Node Name " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
@@ -636,16 +646,7 @@ function init() {
                                     $('#eachnode-details').append('Advertisor Name' + " : " + data['advertisor_name'] + "<br>");
                                     $('#eachnode-details').append('Advertisment Count' + " : " + data['advertisementdata_count'] + "<br>");
                                 } else {
-                                    var data_old = google.visualization.arrayToDataTable([
-                                        ['Local Spend', data['currency'] || 'n/a'],
-                                        ['Newspapers', 0],
-                                        ['Magazines', 0],
-                                        ['TV', 0],
-                                        ['Radio', 0],
-                                        ['Cinema', 0],
-                                        ['Outdoor', 0]
-                                    ]);
-
+                                    data_old = google.visualization.arrayToDataTable(initial_data_bar_chart);
                                     chart = new google.visualization.BarChart(document.getElementById('chart_div'));
                                     new_data = google.visualization.arrayToDataTable([
                                         ['Local Spend', data['currency'] || '0'],
@@ -748,25 +749,53 @@ function updatebubblechart()
     data = {
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
-    var options = {
-    title: 'Region Wise Marketing Activity Rate',
-    hAxis: {title: 'Advertisor Count',viewWindow:{min:0}},
-    chartArea: {width: '80%',height:'120'},
-    vAxis: {title: 'Product Count',viewWindow:{max:500, min:10}},
-    bubble: {textStyle: {fontSize: 8}},
-    sizeAxis:  {minValue: 0,  maxSize: 20},
-    explorer:{actions: ['dragToZoom','rightClickToReset']}
-    };
     var csrftoken = getCookie('csrftoken');
     $.ajax({
         type: 'POST',
-        url: '/get/country/count/',
+        url: '/get/country/details/',
         data: JSON.stringify(data),
         beforeSend: function(xhr, settings) {
+            $('#chart_div').empty();
+            $('#chart_div').append('<div class="col-md-12 text-center">'+'Loading...'+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
         success: function(data) {
             new_data = google.visualization.arrayToDataTable(data)
+            var options = {
+            title: 'Region Wise Marketing Activity Rate',
+            vAxis: {
+                    title: 'Product Count',
+                    viewWindow: {
+                            max: new_data.getColumnRange(2).max+100,
+                            min: new_data.getColumnRange(2).min-20}
+                    },
+            chartArea:{
+                    width: '80%',
+                    height:'120'
+                    },
+            hAxis: {
+                     title : 'Advertisor Count',
+                     viewWindow: {
+                        max: new_data.getColumnRange(1).max+100,
+                        min:new_data.getColumnRange(1).min-20},
+                     gridlines: {count:-1}
+                    },
+            bubble: {
+                    textStyle: {
+                        fontSize: 7,
+                        color: 'green',
+                        },
+                    stroke:'#ccc',
+                    opacity:0.5
+                    },
+            sizeAxis:{
+                    minValue: 0,
+                    maxSize: 18
+                    },
+            explorer:{
+                    actions: ['dragToPan','dragToZoom','rightClickToReset']
+                    }
+            };
             var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
             chart.draw(new_data, options);
             console.log(data);

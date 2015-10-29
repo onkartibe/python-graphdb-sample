@@ -167,6 +167,10 @@ class ManageInitialData(TemplateView):
 
     @never_cache
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+    def get(self, request, *args, **kwargs):
+        data = [each.country for each in Country.objects.all()]
+        return render(request, self.template_name, {'country_list': data})
+
     def post(self, request, *args, **kwargs):
         prod_data = []
         data = json.loads(request.body)
@@ -256,13 +260,13 @@ class ManageMarketingActivityData(TemplateView):
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
     def post(self, request, *args, **kwargs):
         request_data = json.loads(request.body)
-        data = [["Country", "Product", "Advertisor"]]
+        data = [["Country", "Advertisor", "Product"]]
         temp =[]
         adv_count =[]
         for each in Country.objects.all():
             temp = []
             for neach in each.prod_data.all():
                 adv_count.append(neach.adv_data.all().count())
-            temp= [each.country,each.prod_data.all().count(),sum(adv_count)]
+            temp= [each.country,sum(adv_count),each.prod_data.all().count()]
             data.append(temp)
         return HttpResponse(json.dumps(data), content_type='application/json')
