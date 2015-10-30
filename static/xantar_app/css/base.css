@@ -274,6 +274,7 @@ ul, menu, dir {
 #chart_div{
     transition: opacity 0.3s ease-out;
     height: 35%;
+    margin-top: 3%;
 }
 
 .glyphicon-refresh-animate {
@@ -310,36 +311,35 @@ ul, menu, dir {
     font-size: 11px;
     height: 33px;
 }
-.app-vertical-item {
-    margin-top: 46.5%;
-    margin-left: 63.5%;
-    transform: translateZ(0);
-}
 .widget-zoom-button.widget-zoom-in {
-    top: 0px;
+    top: 16px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+}
+.widget-zoom-button {
+    height: 21px;
+    left: 0px;
+    overflow: hidden;
+    position: fixed;
+    cursor: pointer;
+    width: 24px;
+    z-index: 2;
+    box-sizing: border-box;
+    transition: background-color 0.16s ease-out;
+}
+
+.app-vertical-item {
+    margin-top: 45.5%;
+    margin-left: 63.5%;
+    transform: translateZ(0);
+    position: fixed;
 }
 .widget-zoom-button.widget-zoom-out {
     bottom: -1px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
-.widget-zoom-button {
-    background-color: rgba(255,255,255,1);
-    border-radius: 2px;
-    display: block;
-    height: 29px;
-    left: 0px;
-    overflow: hidden;
-    position: absolute;
-    cursor: pointer;
-    width: 29px;
-    z-index: 2;
-    -webkit-appearance: button;
-    box-sizing: border-box;
-    transition: background-color 0.16s ease-out;
-}
+
 .widget-zoom-button.widget-zoom-in:hover .widget-zoom-icon {
     background-position: -30px 0;
 }
@@ -347,14 +347,17 @@ ul, menu, dir {
     background-position: 0 0;
 }
 .widget-zoom-button .widget-zoom-icon {
-    background: transparent url(/static/xantar_app/images/widget-zoom-icon.png) 0 0 no-repeat;
     background-size: 120px 30px;
     display: block;
     height: 15px;
     left: 7px;
     position: absolute;
+    border: 0px solid #ccc;
     top: 7px;
     width: 15px;
+}
+.fa {
+        color: gray;
 }
 .widget-zoom-button.widget-zoom-out .widget-zoom-icon {
     background-position: 0 -15px;
@@ -394,4 +397,58 @@ ul, menu, dir {
 }
 .widget-zoom {
     cursor: pointer;
+}
+#reportbtn{
+    margin-top: 47.5%;
+    margin-left: -89%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;    
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+    -webkit-appearance: button;
+}
+#product_report{
+    border-radius: 0px;
+    margin-top: 3%;
+    height: 33px;
+    padding: 6px 12px;
+    font-size: 11px;
+}
+#advertisor_list{
+    width: auto;
+    border-radius: 0px;
+    padding: 0px;
+    margin-top: 3%;
+    font-size: 11px;
+}
+#reportbtn:hover,
+#product_report,
+#countrylist:hover{
+    opacity:1;
+}
+
+#loading{
+    margin-left: 72%;
+    margin-top: -6%;
+
+}
+
+.navbar-toggle {
+    position: relative;
+    float: right;
+    padding: 9px 10px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.jumbotron {
+    background: darkgray;
 }
