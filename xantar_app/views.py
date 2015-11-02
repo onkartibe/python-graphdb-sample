@@ -52,6 +52,23 @@ CURRENCY_MAP = {
     "VIETNAM": "EVD"
 }
 
+def get_data(country_id):
+    prod_names, prod_data, data, prod_dict = [], [], [], {}
+    country_data = []
+    country = Country.objects.get(id=country_id)
+    prod_list = list(country.prod_data.select_related().all()[:50])
+    for prod in prod_list:
+        prod_names.append(prod.brand_name)
+        adv_list = list(prod.adv_data.select_related().all()[:50])
+        for adv in adv_list: 
+            prod_data.append(adv.adv_name)
+        if prod_names.count(prod.brand_name) > 1:
+            prod_dict[prod.brand_name] + list(set(prod_data))
+        else:
+            prod_dict[prod.brand_name] = list(set(prod_data))
+            data.append({prod.brand_name : list(set(prod_data))})
+        yield data
+
 
 def create_csvdata(filepath):
     document = open(filepath, 'rb+')
@@ -143,23 +160,6 @@ def create_csvdata(filepath):
                 adv_obj.save()
 
 
-def get_data(country_id):
-    prod_names, prod_data, data, prod_dict = [], [], [], {}
-    country_data = []
-    country = Country.objects.get(id=country_id)
-    prod_list = list(country.prod_data.select_related().all()[:50])
-    for prod in prod_list:
-        prod_names.append(prod.brand_name)
-        adv_list = list(prod.adv_data.select_related().all()[:50])
-        for adv in adv_list: 
-            prod_data.append(adv.adv_name)
-        if prod_names.count(prod.brand_name) > 1:
-            prod_dict[prod.brand_name] + list(set(prod_data))
-        else:
-            prod_dict[prod.brand_name] = list(set(prod_data))
-            data.append({prod.brand_name : list(set(prod_data))})
-        yield data
-        
 
 class ManageInitialData(TemplateView):
     
@@ -168,7 +168,7 @@ class ManageInitialData(TemplateView):
     @never_cache
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
     def get(self, request, *args, **kwargs):
-        data = [each.country for each in Country.objects.all()]
+        data = [each for each in Country.objects.all()]
         return render(request, self.template_name, {'country_list': data})
 
     def post(self, request, *args, **kwargs):
@@ -205,10 +205,12 @@ class ManageProductData(TemplateView):
         data = Product.objects.get(id=int(request_data['node_id']))
         product_brandcode = data.brand_code
         product_brand_name = data.brand_name
+        advertisor_list = list(set([adv.adv_name for adv in data.adv_data.all().distinct()]))
         advertisor_count = data.adv_data.all().count()
         response_dict = {'product_brand_name':product_brand_name,
                         'product_brand_code':product_brandcode,
-                        'advertisor_count':advertisor_count}
+                        'advertisor_count':advertisor_count,
+                        'advertisor_list':advertisor_list}
         return HttpResponse(json.dumps(response_dict), content_type='application/json')
 
 
@@ -259,14 +261,22 @@ class ManageMarketingActivityData(TemplateView):
     @never_cache
     @cache_control(no_cache=True, must_revalidate=True, no_store=True)
     def post(self, request, *args, **kwargs):
+        r1,r2 = 1,2
         request_data = json.loads(request.body)
-        data = [["Country", "Advertisor", "Product"]]
+        r1 = request_data['range1']
+        r2 = request_data['range2']
+        data = []
         temp =[]
+        country_obj = Country.objects.all()
+        country_count = country_obj.count()
         adv_count =[]
-        for each in Country.objects.all():
+        for each in Country.objects.all()[r1:r2]:
             temp = []
             for neach in each.prod_data.all():
                 adv_count.append(neach.adv_data.all().count())
             temp= [each.country,sum(adv_count),each.prod_data.all().count()]
             data.append(temp)
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        response_dict = {'country_data':data,'country_count':country_count}
+        return HttpResponse(json.dumps(response_dict), content_type='application/json')
+
+
