@@ -10,7 +10,62 @@
 <body onload="init();" id="body">
     {% csrf_token %}
     <div class="row">
-
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-default">
+            <div class="panel-heading top_menu">
+              <h4 class="panel-title">
+                <a class="accordion" data-toggle="collapse" data-parent="#accordion" href="#slider">
+                <i class="fa fa-align-justify fa-lg indicator"></i>
+                </a>
+              </h4>
+            </div>
+            <div class="panel-collapse collapse" id="slider">
+              <div class="panel-body">
+                <div class="row">
+                    <div class="box-content">
+                        <div class="row">
+                            <div id="MyWizard" class="wizard">
+                                <ul class="steps">
+                                    <div class="col-sm-1">
+                                        <li data-target="#step1" class="active"><span class="badge badge-success">1</span><span class="chevron"></span>Step 1</li>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <li data-target="#step2"><span class="badge badge-success">2</span><span class="chevron"></span>Step 2</li>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <li data-target="#step3"><span class="badge badge-success">3</span><span class="chevron"></span>Step 3</li>
+                                    </div>
+                                </ul>
+                                <div class="actions">
+                                    <button type="button" class="btn btn-prev"> <i class="fa fa-arrow-left"></i> Prev</button>
+                                    <button type="button" class="btn btn-success btn-next" data-last="Finish">Finish<i class="fa fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="step-content">
+                                <div class="col-sm-1">
+                                    <div class="step-pane active well" id="step1">
+                                        <h6>Upload CSV File to map with global fields</h6>
+                                         <label for="files">Select multiple files: </label>
+                                        <input id="fil" type="file" multiple/><br><button onclick="progressfun()">Upload</button>
+                                        <div id="result">
+                                        <br>
+                                        </div><br>
+                                        <div id="success"><br></div>
+                                    </div>
+                                </div>
+                            <div class="step-pane" id="step2">
+                            </div>
+                            <div class="step-pane" id="step3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
     </div>
     <div class="row">
@@ -112,6 +167,7 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="static/xantar_app/js/samplejit.js"></script>
+    <script src="static/xantar_app/js/fileuploader.js"></script>
     <script src="static/xantar_app/js/jit.js"></script>
     <script src="static/xantar_app/js/jit-yc.js"></script>
     <script src="static/xantar_app/js/jsapi.js"></script>
