@@ -27,39 +27,251 @@
                             <div id="MyWizard" class="wizard">
                                 <ul class="steps">
                                     <div class="col-sm-1">
-                                        <li data-target="#step1" class="active"><span class="badge badge-success">1</span><span class="chevron"></span>Step 1</li>
+                                        <li id="step1tag" data-target="#step1" class="active"><span class="badge badge-success">1</span><span class="chevron"></span>Step 1</li>
                                     </div>
                                     <div class="col-sm-1">
-                                        <li data-target="#step2"><span class="badge badge-success">2</span><span class="chevron"></span>Step 2</li>
+                                        <li id="step2tag" data-target="#step2"><span class="badge badge-success">2</span><span class="chevron"></span>Step 2</li>
                                     </div>
                                     <div class="col-sm-1">
-                                        <li data-target="#step3"><span class="badge badge-success">3</span><span class="chevron"></span>Step 3</li>
+                                        <li id="step3tag" data-target="#step3"><span class="badge badge-success">3</span><span class="chevron"></span>Step 3</li>
                                     </div>
                                 </ul>
                                 <div class="actions">
-                                    <button type="button" class="btn btn-prev"> <i class="fa fa-arrow-left"></i> Prev</button>
-                                    <button type="button" class="btn btn-success btn-next" data-last="Finish">Finish<i class="fa fa-arrow-right"></i></button>
+                                    <button type="button" class="btn btn-prev" id="prev"> <i class="fa fa-arrow-left"></i> Prev</button>
+                                    <button type="button" class="btn btn-success btn-next" data-last="Finish" disabled id="finish">Finish<i class="fa fa-arrow-right"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="step-content">
-                                <div class="col-sm-1">
-                                    <div class="step-pane active well" id="step1">
-                                        <h6>Upload CSV File to map with global fields</h6>
-                                         <label for="files">Select multiple files: </label>
-                                        <input id="fil" type="file" multiple/><br><button onclick="progressfun()">Upload</button>
-                                        <div id="result">
-                                        <br>
-                                        </div><br>
-                                        <div id="success"><br></div>
+                                <div class="step-pane active well" id="step1">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                        <h2>Upload CSV File to map with global fields</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="result">
+                                                <div class="well">
+                                                    <div class="progress">
+                                                        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                                        </div>
+                                                    </div><br>
+                                                </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span class="btn btn-default btn-file">Choose File
+                                                <input id="choose_file" type="file" multiple onchange="getFileData(this);"/>
+                                            </span>
+                                            <p id="choose_file_val"></p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button onclick="progressfun()" class="btn btn-primary" id="progress_bar">Upload</button>
+                                            <div id="success" style="display:none;">
+                                            <i class="fa fa-check-circle fa-2x"></i></div>
+                                        </div>
                                     </div>
                                 </div>
-                            <div class="step-pane" id="step2">
+                            </div>
+                            <div class="step-pane" id="step2" style="display:none;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2>Map File Fields to universal Kantar fields</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="well">
+                                        <table id="maptable" class="table table-hover table-condensed table-responsive">
+                                            <thead>
+                                              <tr>
+                                                <th>Global Fields</th>
+                                                <th>File Fields</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <label>Country</label>
+                                                    </td>
+                                                    <td>
+                                                        <select class="selectpicker">
+                                                            <option>Country</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Brand Name</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>BRAND_CODE</option>
+                                                            <option>BRAND_NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Brand Code</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                          <option>BRAND_CODE</option>
+                                                          <option>BRAND_NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Advertisor Code</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>ADV_CODE</option>
+                                                            <option>ADV_NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>Advertisor Name</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>ADV_CODE</option>
+                                                            <option>ADV_NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>DIRECTMAIL FIGURE</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>DIRECTMAIL FIGURE</option>
+                                                            <option>DATA MONTH</option>
+                                                            <option>CURRENCY</option>
+                                                            <option>DATA FACTOR</option>
+                                                            <option>NEWSPAPER FIGURE</option>
+                                                            <option>OUTDOOR_FIGURE</option>
+                                                            <option>MAGAZINES FIGURE</option>
+                                                            <option>CINEMA FIGURE</option>
+                                                            <option>TV FIGURE</option>
+                                                            <option>INTERNET_FIGURE</option>
+                                                            <option>RADIO FIGURE</option>
+                                                            <option>LEVEL1 CODE</option>
+                                                            <option>LEVEL2 CODE</option>
+                                                            <option>LEVEL3 CODE</option>
+                                                            <option>LEVEL3 NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>DATA MONTH</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>DIRECTMAIL FIGURE</option>
+                                                            <option>DATA MONTH</option>
+                                                            <option>CURRENCY</option>
+                                                            <option>DATA FACTOR</option>
+                                                            <option>NEWSPAPER FIGURE</option>
+                                                            <option>OUTDOOR_FIGURE</option>
+                                                            <option>MAGAZINES FIGURE</option>
+                                                            <option>CINEMA FIGURE</option>
+                                                            <option>TV FIGURE</option>
+                                                            <option>INTERNET_FIGURE</option>
+                                                            <option>RADIO FIGURE</option>
+                                                            <option>LEVEL1 CODE</option>
+                                                            <option>LEVEL2 CODE</option>
+                                                            <option>LEVEL3 CODE</option>
+                                                            <option>LEVEL3 NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>CURRENCY</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>DIRECTMAIL FIGURE</option>
+                                                            <option>DATA MONTH</option>
+                                                            <option>CURRENCY</option>
+                                                            <option>DATA FACTOR</option>
+                                                            <option>NEWSPAPER FIGURE</option>
+                                                            <option>OUTDOOR_FIGURE</option>
+                                                            <option>MAGAZINES FIGURE</option>
+                                                            <option>CINEMA FIGURE</option>
+                                                            <option>TV FIGURE</option>
+                                                            <option>INTERNET_FIGURE</option>
+                                                            <option>RADIO FIGURE</option>
+                                                            <option>LEVEL1 CODE</option>
+                                                            <option>LEVEL2 CODE</option>
+                                                            <option>LEVEL3 CODE</option>
+                                                            <option>LEVEL3 NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>DATA FACTOR</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>DIRECTMAIL FIGURE</option>
+                                                            <option>DATA MONTH</option>
+                                                            <option>CURRENCY</option>
+                                                            <option>DATA FACTOR</option>
+                                                            <option>NEWSPAPER FIGURE</option>
+                                                            <option>OUTDOOR_FIGURE</option>
+                                                            <option>MAGAZINES FIGURE</option>
+                                                            <option>CINEMA FIGURE</option>
+                                                            <option>TV FIGURE</option>
+                                                            <option>INTERNET_FIGURE</option>
+                                                            <option>RADIO FIGURE</option>
+                                                            <option>LEVEL1 CODE</option>
+                                                            <option>LEVEL2 CODE</option>
+                                                            <option>LEVEL3 CODE</option>
+                                                            <option>LEVEL3 NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <label>NEWSPAPER FIGURE</label>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+                                                            <option>DIRECTMAIL FIGURE</option>
+                                                            <option>DATA MONTH</option>
+                                                            <option>CURRENCY</option>
+                                                            <option>DATA FACTOR</option>
+                                                            <option>NEWSPAPER FIGURE</option>
+                                                            <option>OUTDOOR_FIGURE</option>
+                                                            <option>MAGAZINES FIGURE</option>
+                                                            <option>CINEMA FIGURE</option>
+                                                            <option>TV FIGURE</option>
+                                                            <option>INTERNET_FIGURE</option>
+                                                            <option>RADIO FIGURE</option>
+                                                            <option>LEVEL1 CODE</option>
+                                                            <option>LEVEL2 CODE</option>
+                                                            <option>LEVEL3 CODE</option>
+                                                            <option>LEVEL3 NAME</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="step-pane" id="step3">
                             </div>
-                        </div>
                     </div>
                 </div>
               </div>
