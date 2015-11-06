@@ -618,4 +618,34 @@ ul, menu, dir {
 }
 #maptable{
     border-top: 0px;
+    border-bottom: 0px;
+    font-size: 15px;
+    font-weight: 200;
+}
+.table>tbody>tr>td{
+    padding: 3px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px;
+}
+.table>tbody>tr>td>label{
+    font-weight: 200;
+}
+.selectpicker{
+    padding: 3px 12px;
+    border-radius: 1px;
+}
+.table>thead>tr>th{
+    border-bottom: 0px;
+}
+#add_select{
+    margin-top: 0%;
+    margin-left: 1%;
+}
+#table_col_head{
+    width: 217px;
+}
+#status_icon{
+    margin-left: 10%;
+    margin-top: -32px;
 }
