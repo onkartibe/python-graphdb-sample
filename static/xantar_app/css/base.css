@@ -4,6 +4,7 @@ html, body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 0.9em;
+    overflow: hidden;
     background-color:black;
 }
 
@@ -436,19 +437,215 @@ ul, menu, dir {
     margin-top: -6%;
 
 }
-
-.navbar-toggle {
-    position: relative;
-    float: right;
-    padding: 9px 10px;
-    margin-top: 8px;
-    margin-right: 15px;
-    margin-bottom: 8px;
-    background-color: transparent;
-    background-image: none;
-    border: 1px solid transparent;
-    border-radius: 4px;
+/*Wizard CSS*/
+#accordion .collapsing, #accordion .collapse.in
+{
+  z-index: 20;
+  background-color:#fff;
+  width: 101%;
+  position: absolute;
 }
-.jumbotron {
-    background: darkgray;
+.indicator{
+    margin-left:45%;
+}
+.top_menu {
+    padding: 5px 0px;
+}
+#collapseOne{
+    width: 100%;
+}
+
+.wizard {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+.wizard ul li:first-child {
+    border-radius: 4px 0 0 4px;
+    padding-left: 20px;
+}
+.wizard ul li.complete {
+    background: #bdea74;
+    color: white;
+}
+.wizard ul li:first-child {
+    -webkit-border-radius: 2px 0 0 2px;
+    -moz-border-radius: 2px 0 0 2px;
+    border-radius: 2px 0 0 2px;
+}
+.wizard ul li {
+    float: left;
+    margin: 0;
+    padding: 0 20px 0 30px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    background: #f7f7f8;
+    color: #b2b8bd;
+    font-size: 16px;
+    cursor: default;
+}
+.wizard ul {
+    list-style: none outside none;
+    padding: 0;
+    margin: 0;
+    width: 4000px;
+}
+.wizard ul li.active {
+    background: #b2b8bd;
+    color: white;
+}
+.box-content {
+    padding: 10px;
+    margin-left: 2%;
+}
+.wizard ul li .chevron {
+    border: 48px solid transparent;
+    border-left: 28px solid white;
+    border-right: 0;
+    display: block;
+    position: absolute;
+    right: -14px;
+    top: -28px;
+    z-index: 1;
+}
+.wizard ul li .badge {
+    margin-right: 8px;
+}
+.wizard ul li .active .badge {
+    background: #67c2ef;
+}
+.panel-group {
+    margin-bottom: 0px; 
+    width: 100%;
+
+}
+/*File Uploader css*/
+.close{
+    font-weight: 100;
+    position:relative;
+    top: 1px;
+}
+.clearfix {
+    *zoom:1;
+}
+.clearfix:before,.clearfix:after {
+    display:table;
+    content:"";
+    line-height:0;
+}
+.clearfix:after {
+    clear:both;
+}
+.hide-text {
+    font:0/0 a;
+    color:transparent;
+    text-shadow:none;
+    background-color:transparent;
+    border:0;
+}
+.input-block-level {
+    display:block;
+    width:100%;
+    min-height:30px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+.btn-file {
+    overflow:hidden;
+    position:relative;
+    vertical-align:middle;
+    margin-left: -19%;
+    margin-top: 25%;
+}
+.btn-file>input {
+    position:absolute;
+    top:0;
+    right:0;
+    margin:0;
+    opacity:0;
+    filter:alpha(opacity=0);
+    transform:translate300px,0) scale(4);
+    font-size:23px;
+    direction:ltr;
+    cursor:pointer;
+}
+#result{
+    margin-top: 10%;
+}
+#progress_bar{
+    margin-top: 25%;
+    margin-left: 577%;
+}
+#result .progress{
+    margin-top: 2%;
+    margin-left: 1%;
+}
+#choose_file_val{
+    margin: -27px 123px -14px;
+}
+#success .fa{
+    margin-top: -44%;
+    margin-left: 682%;
+    color: #3DA73D;
+}
+#btn-file,
+#result,
+#success{
+    margin-left:-5%;
+    margin-top: 5%;
+}
+#result .well {
+    border-style: solid;
+    margin-left: 5%;
+    border-radius: 1px !important;
+}
+#nextpane{
+    margin-top: 5%;
+}
+#prev{
+    margin-left: -2%;
+}
+#maptable{
+    border-top: 0px;
+    border-bottom: 0px;
+    font-size: 15px;
+    font-weight: 200;
+}
+.table>tbody>tr>td{
+    padding: 3px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px;
+}
+.table>tbody>tr>td>label{
+    font-weight: 200;
+}
+.selectpicker{
+    padding: 3px 12px;
+    border-radius: 1px;
+}
+.table>thead>tr>th{
+    border-bottom: 0px;
+}
+#add_select{
+    margin-top: 0%;
+    margin-left: 1%;
+}
+#table_col_head{
+    width: 217px;
+}
+#status_icon{
+    margin-left: 10%;
+    margin-top: -32px;
 }
