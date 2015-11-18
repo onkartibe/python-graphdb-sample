@@ -4,10 +4,10 @@ NON_STR_FIELDS = ['DIRECTMAIL FIGURE','DATA MONTH',
 'DATA FACTOR','NEWSPAPER FIGURE','OUTDOOR_FIGURE','MAGAZINES FIGURE','CINEMA FIGURE','TV FIGURE',
 'INTERNET_FIGURE','RADIO FIGURE'];
 
-MANDITORY_FIELDS = ['COUNTRY', 'BRAND_NAME', 'ADV_NAME', 'CURRENCY','BRAND_CODE']
+MANDATORY_FIELDS = ['COUNTRY', 'BRAND_NAME', 'ADV_NAME', 'CURRENCY','BRAND_CODE']
 
 GLOBAL_FIELDS = $.merge( $.merge([],STR_FIELDS), NON_STR_FIELDS );
-OPTIONAL_FIELDS = $(GLOBAL_FIELDS).not(MANDITORY_FIELDS).get();
+OPTIONAL_FIELDS = $(GLOBAL_FIELDS).not(MANDATORY_FIELDS).get();
 list_temp = ['#locallistCountry','#locallistBrandCode','#locallistBrandName','#locallistAdvName','#locallistCurrency']
 locallistopt = GLOBAL_FIELDS.slice(0);
 copy_GLOBAL_FIELDS = OPTIONAL_FIELDS.slice(0);
@@ -17,31 +17,30 @@ flag_map=0;
 flag_map_div =0;
 flag_multiple =0;
 
-
 function populatedropdown(){
     $('#globallistCountry').append('<option value='+0+'>'+'COUNTRY'+'</option>');
-    $.each(locallistopt, function (i1, el1) {
-        $('#locallistCountry').append('<option value='+i1+'>'+el1+'</option>');
+    $.each(locallistopt, function (i, el) {
+        $('#locallistCountry').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistBrandCode').append('<option value='+0+'>'+'BRAND_CODE'+'</option>');
-    $.each(locallistopt, function (i1, el1) {
-        $('#locallistBrandCode').append('<option value='+i1+'>'+el1+'</option>');
+    $.each(locallistopt, function (i, el) {
+        $('#locallistBrandCode').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistBrandName').append('<option value='+0+'>'+'BRAND_NAME'+'</option>');
-    $.each(locallistopt, function (i1, el1) {
-        $('#locallistBrandName').append('<option value='+i1+'>'+el1+'</option>');
+    $.each(locallistopt, function (i, el) {
+        $('#locallistBrandName').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistAdvName').append('<option value='+0+'>'+'ADV_NAME'+'</option>');
-    $.each(locallistopt, function (i1, el1) {
-        $('#locallistAdvName').append('<option value='+i1+'>'+el1+'</option>');
+    $.each(locallistopt, function (i, el) {
+        $('#locallistAdvName').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistCurrency').append('<option value='+0+'>'+'CURRENCY'+'</option>');
-    $.each(locallistopt, function (i1, el1) {
-        $('#locallistCurrency').append('<option value='+i1+'>'+el1+'</option>');
+    $.each(locallistopt, function (i, el) {
+        $('#locallistCurrency').append('<option value='+i+'>'+el+'</option>');
     });
     $.each(list_temp, function (i, el) {
        $(el).multiselect({
@@ -51,7 +50,7 @@ function populatedropdown(){
     list_temp.splice(0,list_temp.length)
 }
 
-function progressfun(){
+function getfileprogress(){
 	$('#result').empty();
 	var Files = document.getElementById('choose_file').files[0]
 	loaded = 0;
@@ -177,9 +176,10 @@ $('#add_select').click(function(){
 	}
 });
 
-function get_manditory_field_status(){
+function get_mandatory_field_status(){
     if ($('#locallistCountry').val() != null  && $('#locallistBrandCode').val() != null && $('#locallistBrandName').val() != null && $('#locallistAdvName').val() != null && $('#locallistCurrency').val()!= null)
     {
+        flag_map = 1;
         $('#finish').prop("disabled", false);
     }
     else
@@ -192,7 +192,7 @@ function get_manditory_field_status(){
 function loadStatus() {
 	if (flag_upload == 1){
 		$('#contentstep3').empty().append('<h2>Your file is being mapped</h2>');
-		$('#contentstep3').append('<h5 class="status_title">File Uploaded</h5><i class="fa fa-check-circle fa-2x" id="status_icon"></i>');
+		$('#contentstep3').append('<h5 class="status_title">File Uploading</h5><i class="fa fa-check-circle fa-2x" id="status_icon"></i>');
 	}
 	else{
 		$('#contentstep3').append('<h2>Your file is yet to be mapped</h2>');
