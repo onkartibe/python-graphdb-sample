@@ -426,6 +426,7 @@ ul, menu, dir {
     margin-top: 3%;
     font-size: 11px;
 }
+#globalreportbtn:hover,
 #reportbtn:hover,
 #product_report,
 #countrylist:hover{
