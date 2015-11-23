@@ -399,7 +399,18 @@ ul, menu, dir {
 .widget-zoom {
     cursor: pointer;
 }
-#reportbtn{
+#downloadlink{
+    margin-top: 44.5%;
+    margin-left: -89%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+}
+#marketingactivityreportbtn{
     margin-top: 47.5%;
     margin-left: -89%;
     z-index: 5;
@@ -426,7 +437,8 @@ ul, menu, dir {
     margin-top: 3%;
     font-size: 11px;
 }
-#reportbtn:hover,
+#globalreportbtn:hover,
+#marketingactivityreportbtn:hover,
 #product_report,
 #countrylist:hover{
     opacity:1;
@@ -687,4 +699,41 @@ sup {
 .status_title{
     margin-left: 1%;
     margin-top: 2%;
+}
+#globalreportbtn {
+    margin-top: 47.5%;
+    margin-left: -72%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+    -webkit-appearance: button;
+}
+#globalreportbtn .fa {
+    color: white;
+}
+#downloadlinkglobal{
+    margin-top: 44.5%;
+    margin-left: -72%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+}
+/*Growl Notification*/
+#notification {
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 5px;
 }

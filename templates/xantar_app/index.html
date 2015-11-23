@@ -167,7 +167,7 @@
          <div class="col-md-12">
             <div style="margin-left: -85%;">
                <img src="static/xantar_app/images/kantar2.png" alt="Kantar" class="logoimg">
-               <select class="form-control logoimg countrylist">
+               <select class="form-control logoimg countrylist" id="select_country_list">
                   {% for each in country_list %}
                   <option class="btn-default" value="{{each.id}}">
                      {{each.country}}
@@ -250,8 +250,28 @@
                </div>
             </div>
          </div>
-         <button class="btn btn primary" id="reportbtn"><i class="fa fa-file-pdf-o"></i>&nbsp;
+         <div id='download'></div>
+         <button class="btn btn-default" id="marketingactivityreportbtn" data-toggle="popover" data-html="true" data-placement="top" data-toggle="popover" rel="popover" data-content="
+         <div id='optionfileselect'>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='CSV'>
+          CSV<br>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='EXCEL'>
+          EXCEL<br>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='PDF'>
+          PDF </div>" data-original-title="Select file type">
+         <i class="fa fa-file-pdf-o"></i>&nbsp;
          Marketing-Activity Report</button>
+         <div id="downloadglobal"></div>
+         <button class="btn btn-danger" id="globalreportbtn" data-toggle="popover" data-toggle="popover" data-html="true" data-placement="top" data-toggle="popover" rel="popover" data-content="
+         <div id='optionfileselect'>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='CSV'>
+          CSV<br>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='EXCEL'>
+          EXCEL<br>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='PDF'>
+          PDF </div>" data-original-title="Select file type">
+         <i class="fa fa-file-pdf-o"></i>&nbsp;
+         Global Marketing Activity Report</button>
          <div id="zoom" class="app-vertical-item">
             <div class="widget-zoom noselect widget-zoom-slider-invisible" > 
             </div>
@@ -262,12 +282,14 @@
       </div>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-      <script src="static/xantar_app/js/samplejit.js"></script>
-      <script src="static/xantar_app/js/fileuploader.js"></script>
       <script src="static/xantar_app/js/jit.js"></script>
       <script src="static/xantar_app/js/jit-yc.js"></script>
       <script src="static/xantar_app/js/jsapi.js"></script>
+      <script src="static/xantar_app/js/samplejit.js"></script>
       <script src="static/xantar_app/js/barjs.js"></script>
+      <script src="static/xantar_app/js/fileuploader.js"></script>
+      <script src="static/xantar_app/js/bootstrap-notify.js"></script>
       <script src="static/xantar_app/js/bootstrap-multiselect.js"></script>
+      <script src="static/xantar_app/js/marketingactivityreport.js"></script>
    </body>
 </html>
