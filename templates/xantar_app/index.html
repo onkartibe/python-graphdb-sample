@@ -2,8 +2,10 @@
    <head>
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
       <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-      <link rel="stylesheet" href="static/xantar_app/css/base.css" />
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="static/xantar_app/css/bootstrap-multiselect.css">
+      <link rel="stylesheet" href="static/xantar_app/css/base.css" />
+
    </head>
    <body onload="init();" id="body">
       {% csrf_token %}
@@ -13,7 +15,7 @@
             <div class="panel-heading top_menu">
                <h4 class="panel-title">
                   <a class="accordion" data-toggle="collapse" data-parent="#accordion" href="#slider">
-                  <i class="fa fa-align-justify fa-lg indicator"></i>
+                  <i class="fa fa-align-justify fa-lg opencollapse" id="open_collapse"></i>
                   </a>
                </h4>
             </div>
@@ -66,7 +68,7 @@
                                           <p id="choose_file_val"></p>
                                        </div>
                                        <div class="col-md-2">
-                                          <button onclick="progressfun()" class="btn btn-primary" id="progress_bar">Upload</button>
+                                          <button onclick="getfileprogress()" class="btn btn-primary" id="progress_bar">Upload</button>
                                           <div id="success" style="display:none;">
                                              <i class="fa fa-check-circle fa-2x"></i>
                                           </div>
@@ -76,56 +78,81 @@
                               </div>
                               <div class="step-pane" id="step2" style="display:none;">
                                  <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-12" id="mapping_success">
                                        <h2>Map File Fields to universal Kantar fields</h2>
                                     </div>
                                  </div>
+                                 <p id="note"><b>Note:</b>Fields marked with <sup>*</sup> are mandatory fields.
+                                 Click <i class="fa fa-plus-circle"></i> to get more fields</p>
                                  <div class="row">
                                     <div class="well">
-                                       <table id="maptable" class="table table-hover table-condensed table-responsive">
-                                          <thead>
-                                             <tr>
-                                                <th id="table_col_head">Global Fields</th>
-                                                <th id="table_col_head">File Fields</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody id="table_body">
-                                             <tr id="new_row">
-                                                <td>
-                                                   <select class="selectpicker btn btn-default"
-                                                      id="globallist">
-                                                   </select>
-                                                </td>
-                                                <td>
-                                                   <select class="selectpicker btn btn-default">
-                                                      <optgroup label="Country">
-                                                         <option>Country</option>
-                                                      </optgroup>
-                                                      <optgroup label="Product">
-                                                         <option>BRAND_CODE</option>
-                                                         <option>BRAND_NAME</option>
-                                                      </optgroup>
-                                                      <optgroup label="Advertisor">
-                                                         <option>ADV_CODE</option>
-                                                         <option>ADV_NAME</option>
-                                                      </optgroup>
-                                                      <optgroup label="Advertisement">
-                                                         <option>DIRECTMAIL FIGURE</option>
-                                                         <option>DATA MONTH</option>
-                                                      </optgroup>
-                                                   </select>
-                                                   <a href="#">
-                                                   <i class="fa fa-plus-circle" id="add_select"></i>
-                                                   </a>
-                                                </td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
+                                        <div class="col-md-6" id="firsttablecol">
+                                           <table id="maptable" class="table table-hover table-condensed table-responsive">
+                                              <thead>
+                                                 <tr>
+                                                    <th id="table_col_head">Global Fields</th>
+                                                    <th id="table_col_head">File Fields</th>
+                                                 </tr>
+                                              </thead>
+                                              <tbody id="table_body">
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistCountry" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistCountry" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td>
+                                                           <select id="globallistAdvName" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistAdvName" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistCurrency" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistCurrency" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistBrandName" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistBrandName" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistBrandCode" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistBrandCode" onchange="get_mandatory_field_status()"></select>
+                                                            <a href="#" id ="add_icon">
+                                                            <i class="fa fa-plus-circle" id="add_select"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                              </tbody>
+                                           </table>
+                                        </div>
+                                        <div class="col-md-6" id="secondtablecol">
+                                        </div>
                                     </div>
                                  </div>
                               </div>
                               <div class="step-pane" id="step3">
-                                    <div class="col-md-12 well" id="contentstep3">
+                                    <div class="col-md-12 well" id="contentstep3" style="display:none;">
                                     </div>
                               </div>
                            </div>
@@ -223,7 +250,7 @@
                </div>
             </div>
          </div>
-         <button class="btn btn primary" id="reportbtn"><i class="fa fa-file-pdf-o"></i>&nbsp;
+         <button class="btn btn-default" id="reportbtn"><i class="fa fa-file-pdf-o"></i>&nbsp;
          Marketing-Activity Report</button>
          <div id="zoom" class="app-vertical-item">
             <div class="widget-zoom noselect widget-zoom-slider-invisible" > 
@@ -234,14 +261,13 @@
          </div>
       </div>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-      <script src="static/xantar_app/js/samplejit.js"></script>
-      <script src="static/xantar_app/js/fileuploader.js"></script>
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
       <script src="static/xantar_app/js/jit.js"></script>
       <script src="static/xantar_app/js/jit-yc.js"></script>
       <script src="static/xantar_app/js/jsapi.js"></script>
       <script src="static/xantar_app/js/barjs.js"></script>
-      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="static/xantar_app/js/samplejit.js"></script>
+      <script src="static/xantar_app/js/fileuploader.js"></script>
+      <script src="static/xantar_app/js/bootstrap-multiselect.js"></script>
    </body>
 </html>
-COPY TO CLIPBOARD    SELECT ALL 
-© FreeFormatte

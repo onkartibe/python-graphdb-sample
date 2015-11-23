@@ -643,7 +643,6 @@ function init() {
                                 $('#eachnode-details').empty();
                                 $('#eachnode-head').empty();
                                 if (node.data.type == 0) {
-                                    $('#chart_div').empty();
                                     updatebubblechart(0,1);
                                     $('#eachnode-head').append("Node Name " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
@@ -664,6 +663,8 @@ function init() {
                                     $('#eachnode-details').append('Advertisor Name' + " : " + data['advertisor_name'] + "<br>");
                                     $('#eachnode-details').append('Advertisment Count' + " : " + data['advertisementdata_count'] + "<br>");
                                 } else {
+                                    $('#chart_div').empty();
+
                                     data_old = google.visualization.arrayToDataTable(initial_data_bar_chart);
                                     chart = new google.visualization.BarChart(document.getElementById('chart_div'));
                                     new_data = google.visualization.arrayToDataTable([
@@ -761,7 +762,8 @@ function init() {
 }
 
 function updatebubblechart(count,count1)
-{
+{   
+    chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
     data = {
         range1 :count,
         range2 : count1,

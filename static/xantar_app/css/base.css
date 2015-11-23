@@ -155,7 +155,7 @@ a {
 }
 
 .logoimg {
-    margin-left: 84%;
+    margin-left: 85%;
     margin-top: 1%;
     opacity: 0.8;
     position: absolute;
@@ -303,7 +303,7 @@ ul, menu, dir {
     margin-top: 20%;
 }
 .countrylist {
-    margin-left: 86%;
+    margin-left: 89%;
     position: fixed;
     margin-top: 47.5%;
     width: auto;
@@ -331,7 +331,7 @@ ul, menu, dir {
 
 .app-vertical-item {
     margin-top: 45.5%;
-    margin-left: 63.5%;
+    margin-left: 66.5%;
     transform: translateZ(0);
     position: fixed;
 }
@@ -426,6 +426,7 @@ ul, menu, dir {
     margin-top: 3%;
     font-size: 11px;
 }
+#globalreportbtn:hover,
 #reportbtn:hover,
 #product_report,
 #countrylist:hover{
@@ -445,7 +446,7 @@ ul, menu, dir {
   width: 101%;
   position: absolute;
 }
-.indicator{
+.opencollapse{
     margin-left:45%;
 }
 .top_menu {
@@ -648,4 +649,43 @@ ul, menu, dir {
 #status_icon{
     margin-left: 10%;
     margin-top: -32px;
+}
+#add_icon{
+    text-decoration: none;
+}
+#mapping_success_icon{
+    margin-left: 45%;
+    margin-top: -3%;
+    color: green;
+}
+.multiselect-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+sup { 
+    vertical-align: super;
+    font-size: 12px;
+    color: red;
+}
+#note{
+    font-size: 11px;
+}
+#note sup{
+    font-size: 8px;
+}
+#contentstep3{
+    text-align: -webkit-left;
+    border-style: hidden;
+    opacity: 0.8;
+    transition: opacity 0.3s ease-out;
+    background-color: white;
+    margin-bottom: 0px;
+    margin-left: 1%;
+    border-width: 16%;
+    width: 96%;
+}
+.status_title{
+    margin-left: 1%;
+    margin-top: 2%;
 }
