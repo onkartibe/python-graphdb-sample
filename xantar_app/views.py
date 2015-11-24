@@ -16,7 +16,7 @@ from django.views.decorators.http import condition
 # for catching ObjectDoesNotExist exceptions
 from django.core.exceptions import ObjectDoesNotExist
 
-from models import *
+from xantar_app.models import *
 
 # Create your views here.
 
@@ -123,25 +123,50 @@ def create_csvdata(filepath):
                     "level3_name": row[6],
                 })
 
-                ad_data_obj = AdvertisementData.objects.create(**adv_data)
-
-                adv_obj = AdvertisorData.objects.create(
-                    adv_code='n/a', adv_name=row[10])
-
-                product_obj = Product.objects.create(brand_code=base_brand_data[
-                    row[11].strip().replace('"', '')], brand_name=row[11])
-
                 try:
                     country_obj = Country.objects.get(country=row[2])
-                    print "I am here"
+                    print "Country Present"
                 except:
                     country_obj = Country.objects.create(country=row[2])
-                    print "I am not here"
+                    print "Country Absent"
+                    country_obj.save()
 
-                country_obj.prod_data.add(product_obj)
+                try:
+                    product_obj = Product.objects.get(brand_code=base_brand_data[
+                    row[11].strip().replace('"', '')], brand_name=row[11])
+                    c =country_obj.prod_data.all()
+                    if list(product_obj) not in c:
+                        print "product_obj adding to country"+product_obj.brand_code
+                        country_obj.prod_data.add(product_obj)
+                except:
+                    product_obj = Product.objects.create(brand_code=base_brand_data[
+                    row[11].strip().replace('"', '')], brand_name=row[11])
+                    product_obj.save()
+                    print "product_obj created"+product_obj.brand_code
+                    country_obj.prod_data.add(product_obj)
+                
                 country_obj.save()
-                product_obj.adv_data.add(adv_obj)
+
+                try:
+                    adv_obj = AdvertisorData.objects.get(
+                    adv_code='n/a', adv_name=row[10])
+                    print "Advertisor present in db"
+                    p = product_obj.adv_data.all()
+                    if adv_obj not in p:
+                        print "adv addin to product_obj"+adv_obj.adv_name
+                        product_obj.adv_data.add(adv_obj)
+                except:
+                    print "adv not there"
+                    adv_obj = AdvertisorData.objects.create(
+                    adv_code='n/a', adv_name=row[10])
+                    adv_obj.save()
+                    print "adv created"+adv_obj.adv_name
+                    product_obj.adv_data.add(adv_obj)
+
                 product_obj.save()
+
+                ad_data_obj = AdvertisementData.objects.create(**adv_data)
+
                 adv_obj.advr_data.add(ad_data_obj)
                 adv_obj.save()
 

@@ -21,7 +21,6 @@ def marketingreport(request):
             product_obj = Product.objects.filter(brand_code=request_data['brand_code'])
             for each in product_obj:
                 country_list +=Country.objects.filter(prod_data=each.id)
-            print country_list
             return write_csv_data(list(country_list))
         else:
             product_obj =[]
@@ -31,7 +30,6 @@ def marketingreport(request):
                 product_obj += Product.objects.filter(adv_data=each.id)
             for each in product_obj:
                 country_list += Country.objects.filter(prod_data=each.id)
-            print country_list
             return write_csv_data(list(country_list))
 
 

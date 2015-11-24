@@ -656,7 +656,7 @@ function init() {
                                     $('#eachnode-details').append('<div class="col-md-12"><select class="form-control" id="advertisor_list"></select></br>'+
                                         '<input type="radio" name="filetype_product" value="CSV">CSV&nbsp;'+
                                       '<input type="radio" name="filetype_product" value="EXCEL">EXCEL&nbsp;'+
-                                      '<input type="radio" name="filetype_product" value="PDF">PDF</div>')
+                                      '<input type="radio" name="filetype_product" disabled value="PDF">PDF</div>')
                                     populateadvertisors(data['advertisor_list']);
                                     $('#eachnode-details').append('<button class ="btn btn primary" id="product_report" onclick="get_productmarketing_activity_report('+data["product_brand_code"]+')"><i class="fa fa-file-pdf-o"></i>&nbsp; Advertisement Report</button>');
                                 } else if (node.data.type == 2) {
@@ -821,7 +821,7 @@ function updatebubblechart(count,count1)
             chart.draw(bubble_data, options);
             countn1 =count + 1;
             countn2 = count1 + 1;
-            $('#loading').append('<h7>Loading...</h7>'+((count1/data['country_count'])*100)+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+            $('#loading').append('<h7>Loading...</h7>'+(((count1/data['country_count'])*100).toPrecision(2))+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
             if (countn1 <= data['country_count'] && countn2 <= data['country_count']){
                 updatebubblechart(countn1,countn2);
             }
