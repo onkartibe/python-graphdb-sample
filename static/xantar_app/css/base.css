@@ -439,6 +439,7 @@ ul, menu, dir {
 }
 #globalreportbtn:hover,
 #marketingactivityreportbtn:hover,
+#reportbtn:hover,
 #product_report,
 #countrylist:hover{
     opacity:1;
