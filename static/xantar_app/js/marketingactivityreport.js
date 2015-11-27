@@ -18,12 +18,12 @@ $('#globalreportbtn').popover();
 $('#product_report').popover();
 
 $('[data-toggle="popover"]').click(function () {
-        
         setTimeout(function () {
             $('.popover').fadeOut('slow');
         }, 3000);
 
     });
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -45,7 +45,7 @@ function get_globalmarketing_activity_report(selectedinput){
   $(selectedinput).prop('checked', true);
     request_data = {
           report_type: 'global',
-          filetype: $('input[name="filetype"]:checked').val(),
+          file_type: $('input[name="filetype"]:checked').val(),
       }
       $('#globalreportbtn').prop("disabled", true);
       $.ajax({
@@ -73,7 +73,7 @@ function get_globalmarketing_activity_report(selectedinput){
                 '<br>&nbsp;<span>File Format: CSV</span>' +
                 '<a href="{3}" target="{4}" download="globalmarketingactivityreport.csv" data-notify="url"></a>' +
               '</div>';
-                notifyuser(uri,notification_template);
+                notifyuser(uri,notification_template,message);
               }
               if($('input[name="filetype"]:checked').val() === "EXCEL"){
                 $('#globalloadericon').remove();
@@ -89,7 +89,23 @@ function get_globalmarketing_activity_report(selectedinput){
                 '<br>&nbsp;<span>File Format: EXCEL</span>' +
                 '<a href="{3}" target="{4}" download="globalmarketingactivityreport.xlsx" data-notify="url"></a>' +
               '</div>';
-                notifyuser(uri,notification_template);
+                notifyuser(uri,notification_template,message);
+              }
+              if($('input[name="filetype"]:checked').val() === "PDF"){
+                $('#globalloadericon').remove();
+                var uri = 'data:application/pdf;charset=UTF-8,' + encodeURIComponent(response);
+                message = 'GlobalMarketing-Activity Report is successfully generated.<a href='+uri+'download="globalmarketingactivityreport.pdf">Click here</a> open the report.';
+                notification_template ='<div data-notify="container" class="col-xs-8 col-sm-5 alert alert-{0}" role="alert">' +
+                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                '<span data-notify="icon"></span> ' +
+                '<span data-notify="message">{2}</span>' +
+                '<div class="progress" data-notify="progressbar">' +
+                  '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                '</div>' +
+                '<br>&nbsp;<span>File Format: PDF</span>' +
+                '<a href="{3}" target="{4}" download="globalmarketingactivityreport.pdf" data-notify="url"></a>' +
+              '</div>';
+                notifyuser(uri,notification_template,message);
               }
           },
           error: function(response,xhr) {
@@ -112,7 +128,7 @@ function get_marketing_activity_report(selectedinput) {
       $('#marketingactivityreportbtn').append('&nbsp;<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" id="loadericon"></span>');
       $(selectedinput).prop('checked', true);
       request_data = {
-          filetype: $('input[name="filetype"]:checked').val(),
+          file_type: $('input[name="filetype"]:checked').val(),
           country_id: $('#select_country_list option:selected').val(),
           report_type: 'current_country'
       }
@@ -159,6 +175,22 @@ function get_marketing_activity_report(selectedinput) {
               '</div>';
                 notifyuser(uri,notification_template,message);
               }
+              if($('input[name="filetype"]:checked').val() === "PDF"){
+                $('#loadericon').remove();
+                var uri = 'data:application/pdf;charset=UTF-8,' + encodeURIComponent(response);
+                message = 'Marketing-Activity Report is successfully generated.<a href='+uri+' download="marketingactivityreport.pdf">Click here</a> open the report.';
+                notification_template ='<div data-notify="container" class="col-xs-8 col-sm-5 alert alert-{0}" role="alert">' +
+                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                '<span data-notify="icon"></span> ' +
+                '<span data-notify="message">{2}</span>' +
+                '<div class="progress" data-notify="progressbar">' +
+                  '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                '</div>' +
+                '<br>&nbsp;<span>File Format: PDF</span>' +
+                '<a href="{3}" target="{4}" download="marketingactivityreport.pdf" data-notify="url"></a>' +
+              '</div>';
+                notifyuser(uri,notification_template,message);
+              }
           },
           error: function(response,xhr) {
               $('#loadericon').remove();
@@ -172,7 +204,7 @@ function get_marketing_activity_report(selectedinput) {
                   '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
                 '</div>' +
               '</div>';
-              notifyuser(uri='',notification_template,message);            
+              notifyuser(uri='',notification_template,message);
           },
   });
 }
@@ -192,7 +224,7 @@ function get_productmarketing_activity_report(brand_code){
           report_type: 'product_report',
           brand_code:brand_code,
           advertisor : $('#advertisor_list option:selected').val(),
-          filetype: $('input[name="filetype_product"]:checked').val(),
+          file_type: $('input[name="filetype_product"]:checked').val(),
       }
       $.ajax({
           url: "/get/marketing/activity/report/",
@@ -244,6 +276,21 @@ function get_productmarketing_activity_report(brand_code){
               '</div>';
                 notifyuser(uri,notification_template,message);
             }
+            if($('input[name="filetype"]:checked').val() === "PDF"){
+                var uri = 'data:application/pdf;charset=UTF-8,' + encodeURIComponent(response);
+                message = 'Marketing-Activity Report is successfully generated.<a href='+uri+'download="product_marketingactivityreport.pdf">Click here</a> open the report.';
+                notification_template ='<div data-notify="container" class="col-xs-8 col-sm-5 alert alert-{0}" role="alert">' +
+                '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                '<span data-notify="icon"></span> ' +
+                '<span data-notify="message">{2}</span>' +
+                '<div class="progress" data-notify="progressbar">' +
+                  '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                '</div>' +
+                '<br>&nbsp;<span>File Format: PDF</span>' +
+                '<a href="{3}" target="{4}" download="product_marketingactivityreport.pdf" data-notify="url"></a>' +
+              '</div>';
+                notifyuser(uri,notification_template,message);
+              }
           },
           error: function(response,xhr) {
               if(report_count > 0)
@@ -309,4 +356,3 @@ function notifyuser (link,notification_template,message) {
   template: notification_template
 });
 }
-

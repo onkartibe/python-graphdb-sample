@@ -656,7 +656,7 @@ function init() {
                                     $('#eachnode-details').append('<div class="col-md-12"><select class="form-control" id="advertisor_list"></select></br>'+
                                         '<input type="radio" name="filetype_product" value="CSV">CSV&nbsp;'+
                                       '<input type="radio" name="filetype_product" value="EXCEL">EXCEL&nbsp;'+
-                                      '<input type="radio" name="filetype_product" disabled value="PDF">PDF</div>')
+                                      '<input type="radio" name="filetype_product" value="PDF">PDF</div>')
                                     populateadvertisors(data['advertisor_list']);
                                     $('#eachnode-details').append('<button class ="btn btn primary" id="product_report" onclick="get_productmarketing_activity_report('+data["product_brand_code"]+')"><i class="fa fa-file-pdf-o"></i>&nbsp; Advertisement Report</button>');
                                 } else if (node.data.type == 2) {
@@ -828,6 +828,9 @@ function updatebubblechart(count,count1)
             else{
                 $('#loading').fadeOut('slow');
             }
+        },
+        error:function(){
+            
         }
     });
 }

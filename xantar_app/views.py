@@ -5,16 +5,9 @@ import json
 from django.shortcuts import render
 from django.conf import settings
 from django.views.generic import TemplateView
-from django.http import HttpResponse, HttpResponseRedirect
-from django.http import StreamingHttpResponse
+from django.http import HttpResponse
 from django.views.decorators.cache import cache_control, never_cache
-from django.shortcuts import render_to_response
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.views.decorators.http import condition
 
-
-# for catching ObjectDoesNotExist exceptions
-from django.core.exceptions import ObjectDoesNotExist
 
 from xantar_app.models import *
 
@@ -95,23 +88,23 @@ def create_csvdata(filepath):
         for y_index, row in enumerate(reader):
             adv_flag, prod_flag = False, False
             if y_index > 0:
-                adv_data = {}
+                advertisement_data = {}
 
                 if row[13].strip() == 'NEWSPAPERS':
-                    adv_data["newspapers_figure"] = int(row[16].strip())
+                    advertisement_data["newspapers_figure"] = int(row[16].strip())
                 if row[13].strip() == 'MAGAZINES':
-                    adv_data["magazines_figure"] = int(row[16].strip())
+                    advertisement_data["magazines_figure"] = int(row[16].strip())
                 if row[13].strip() == 'TV':
-                    adv_data["tv_figure"] = int(row[16].strip())
+                    advertisement_data["tv_figure"] = int(row[16].strip())
                 if row[13].strip() == 'RADIO':
-                    adv_data["radio_figure"] = int(row[16].strip())
+                    advertisement_data["radio_figure"] = int(row[16].strip())
                 if row[13].strip() == 'CINEMA':
-                    adv_data["cinema_figure"] = int(row[16].strip())
+                    advertisement_data["cinema_figure"] = int(row[16].strip())
                 if row[13].strip() == 'OUTDOOR':
-                    adv_data["outdoor_figure"] = int(row[16].strip())
+                    advertisement_data["outdoor_figure"] = int(row[16].strip())
                 if row[13].strip() == 'INTERNET':
-                    adv_data["internet_figure"] = int(row[16].strip())
-                adv_data.update({
+                    advertisement_data["internet_figure"] = int(row[16].strip())
+                advertisement_data.update({
                     "blank": '',
                     "direct_mail_figure": 0,
                     "data_month": int(row[15] + row[14].zfill(2)),
@@ -125,47 +118,41 @@ def create_csvdata(filepath):
 
                 try:
                     country_obj = Country.objects.get(country=row[2])
-                    print "Country Present"
                 except:
                     country_obj = Country.objects.create(country=row[2])
-                    print "Country Absent"
                     country_obj.save()
 
                 try:
                     product_obj = Product.objects.get(brand_code=base_brand_data[
                     row[11].strip().replace('"', '')], brand_name=row[11])
-                    c =country_obj.prod_data.all()
-                    if list(product_obj) not in c:
-                        print "product_obj adding to country"+product_obj.brand_code
+                    if country_obj.prod_data.get(brand_name=product_obj.brand_name)>0:
+                        pass
+                    else:
                         country_obj.prod_data.add(product_obj)
                 except:
                     product_obj = Product.objects.create(brand_code=base_brand_data[
                     row[11].strip().replace('"', '')], brand_name=row[11])
                     product_obj.save()
-                    print "product_obj created"+product_obj.brand_code
                     country_obj.prod_data.add(product_obj)
-                
+
                 country_obj.save()
 
                 try:
                     adv_obj = AdvertisorData.objects.get(
                     adv_code='n/a', adv_name=row[10])
-                    print "Advertisor present in db"
-                    p = product_obj.adv_data.all()
-                    if adv_obj not in p:
-                        print "adv addin to product_obj"+adv_obj.adv_name
+                    if product_obj.adv_data.filter(adv_name=adv_obj.adv_name)>0:
+                        pass
+                    else:
                         product_obj.adv_data.add(adv_obj)
                 except:
-                    print "adv not there"
                     adv_obj = AdvertisorData.objects.create(
                     adv_code='n/a', adv_name=row[10])
                     adv_obj.save()
-                    print "adv created"+adv_obj.adv_name
                     product_obj.adv_data.add(adv_obj)
 
                 product_obj.save()
 
-                ad_data_obj = AdvertisementData.objects.create(**adv_data)
+                ad_data_obj = AdvertisementData.objects.create(**advertisement_data)
 
                 adv_obj.advr_data.add(ad_data_obj)
                 adv_obj.save()
@@ -286,7 +273,7 @@ class ManageMarketingActivityData(TemplateView):
             temp = []
             for neach in each.prod_data.all():
                 adv_count.append(neach.adv_data.all().count())
-            temp = [each.country, sum(adv_count), each.prod_data.all().count()]
+            temp = [each.country, sum(adv_count), len(list(each.prod_data.all()))]
             data.append(temp)
         response_dict = {'country_data': data, 'country_count': country_count}
         return HttpResponse(json.dumps(response_dict), content_type='application/json')
