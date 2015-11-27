@@ -17,7 +17,7 @@ var initial_data_bar_chart =[
 
 (function() {
     data = {
-        country_id: 7146,
+        country_id: 14955,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     $('#zi').on('click', function () {
@@ -97,7 +97,7 @@ function init() {
         id: "7146",
         name: "US",
         children: [{
-            id: "7145",
+            id: "30131",
             name: "US &amp;Chevrolet",
             data: {
                 type: "1",
@@ -653,9 +653,12 @@ function init() {
                                     $('#eachnode-details').append('BrandName' + " : " + data['product_brand_name'] + "<br>");
                                     $('#eachnode-details').append('BrandCode' + " : " + data['product_brand_code'] + "<br>");
                                     $('#eachnode-details').append('Advertisor Count' + " : " + data['advertisor_count'] + "<br>");
-                                    $('#eachnode-details').append('<select class="form-control" id="advertisor_list"></select>');
+                                    $('#eachnode-details').append('<div class="col-md-12"><select class="form-control" id="advertisor_list"></select></br>'+
+                                        '<input type="radio" name="filetype_product" value="CSV">CSV&nbsp;'+
+                                      '<input type="radio" name="filetype_product" value="EXCEL">EXCEL&nbsp;'+
+                                      '<input type="radio" name="filetype_product" value="PDF">PDF</div>')
                                     populateadvertisors(data['advertisor_list']);
-                                    $('#eachnode-details').append('<button class ="btn btn primary" id="product_report"><i class="fa fa-file-pdf-o"></i>&nbsp; Advertisement Report</button>');
+                                    $('#eachnode-details').append('<button class ="btn btn primary" id="product_report" onclick="get_productmarketing_activity_report('+data["product_brand_code"]+')"><i class="fa fa-file-pdf-o"></i>&nbsp; Advertisement Report</button>');
                                 } else if (node.data.type == 2) {
                                     $('#eachnode-head').append("Node Name  " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "AdvertisorData" + "<br>");
@@ -818,13 +821,16 @@ function updatebubblechart(count,count1)
             chart.draw(bubble_data, options);
             countn1 =count + 1;
             countn2 = count1 + 1;
-            $('#loading').append('<h7>Loading...</h7>'+((count1/data['country_count'])*100)+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+            $('#loading').append('<h7>Loading...</h7>'+(((count1/data['country_count'])*100).toPrecision(2))+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
             if (countn1 <= data['country_count'] && countn2 <= data['country_count']){
                 updatebubblechart(countn1,countn2);
             }
             else{
                 $('#loading').fadeOut('slow');
             }
+        },
+        error:function(){
+            
         }
     });
 }
