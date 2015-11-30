@@ -52,6 +52,7 @@
                                  </div>
                                  <div class="row">
                                     <div class="col-md-6">
+                                    <form id="fileupload" enctype="multipart/form-data">
                                        <div id="result">
                                           <div class="well">
                                              <div class="progress">
@@ -68,11 +69,12 @@
                                           <p id="choose_file_val"></p>
                                        </div>
                                        <div class="col-md-2">
-                                          <button onclick="getfileprogress()" class="btn btn-primary" id="progress_bar">Upload</button>
+                                          <button type="button" onclick="getfileprogress()" class="btn btn-primary" id="upload_file">Upload</button>
                                           <div id="success" style="display:none;">
                                              <i class="fa fa-check-circle fa-2x"></i>
                                           </div>
                                        </div>
+                                    </form>
                                     </div>
                                  </div>
                               </div>
@@ -289,14 +291,11 @@
       <script src="static/xantar_app/js/jsapi.js"></script>
       <script src="static/xantar_app/js/samplejit.js"></script>
       <script src="static/xantar_app/js/barjs.js"></script>
-<<<<<<< HEAD
       <script src="static/xantar_app/js/fileuploader.js"></script>
       <script src="static/xantar_app/js/bootstrap-notify.js"></script>
-=======
       <script src="static/xantar_app/js/samplejit.js"></script>
-      <script src="static/xantar_app/js/fileuploader.js"></script>
->>>>>>> ba3682a98c14e5db3bd09a21905591c38d691257
       <script src="static/xantar_app/js/bootstrap-multiselect.js"></script>
       <script src="static/xantar_app/js/marketingactivityreport.js"></script>
+      <script src="http://hayageek.github.io/jQuery-Upload-File/4.0.8/jquery.uploadfile.min.js"></script>
    </body>
 </html>

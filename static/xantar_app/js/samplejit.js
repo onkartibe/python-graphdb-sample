@@ -90,7 +90,7 @@ function init() {
     bubble_data.addColumn('string','Country');
     bubble_data.addColumn('number','Advertisor');
     bubble_data.addColumn('number','Product');
-    updatebubblechart(0,1);
+    // updatebubblechart(0,1);
    $('#loading').append('<h7>Loading...</h7>'+0+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
 
     var json = {

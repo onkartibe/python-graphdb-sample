@@ -1,5 +1,12 @@
 # # Create your models here.
+import datetime
+
 from neo4django.db import models
+from django.conf import settings
+from mongoengine import *
+
+connect(settings.DBNAME)
+
 
 class Country(models.NodeModel):
     country = models.StringProperty()
@@ -38,3 +45,11 @@ class AdvertisementData(models.NodeModel):
 
     advr_data = models.Relationship(
         AdvertisorData, rel_type='owns', related_name='advr_data')
+
+
+class Report_Data(Document):
+    file_name = StringField(
+        max_length=200, default="", verbose_name="Name of File")
+    file_path = StringField(
+        max_length=200, default="", verbose_name="Path of File")
+    date_created = DateTimeField(default=datetime.datetime.now)

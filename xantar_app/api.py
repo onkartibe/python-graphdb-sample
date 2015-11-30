@@ -1,12 +1,13 @@
 import csv
 import json
 import os
-from openpyxl import Workbook
+
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A1, inch, landscape
+from reportlab.lib.pagesizes import A1, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 
+from django.conf import settings
 from django.core.servers.basehttp import FileWrapper
 from django.http import HttpResponse
 from xantar_app.models import *
@@ -139,3 +140,28 @@ def write_pdf_data(listdata):
     response = HttpResponse(wrapper, content_type='text/plain')
     response['Content-Length'] = os.path.getsize("report.pdf")
     return response
+
+def upload_file(request):
+    files = request.POST['file']
+    file_data = request.POST['file_data']
+    splitfilepath = files.decode("utf-8").split('\\')
+    filename = splitfilepath[-1]
+    filepath = os.path.join(settings.MEDIA_ROOT,'report_data')
+    try:
+        print os.stat(filepath)
+    except:
+        os.mkdir(filepath)
+    abs_path = os.path.join(filepath, filename)
+    destination = open(abs_path, "wb+")
+    for chunk in file_data:
+        destination.write(chunk)
+    destination.close()
+    return HttpResponse("File successfully uploaded")
+
+def clean_file(request,destination):
+    with open(str(destination),"wb+") as file_data:
+        for line in file_data.readlines():
+            if line.rstrip():
+                print line
+    file_data.close()
+    return HttpResponse("Cleaning file done")
