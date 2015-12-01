@@ -4,6 +4,7 @@ html, body {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 0.9em;
+    overflow: hidden;
     background-color:black;
 }
 
@@ -154,7 +155,7 @@ a {
 }
 
 .logoimg {
-    margin-left: 84%;
+    margin-left: 85%;
     margin-top: 1%;
     opacity: 0.8;
     position: absolute;
@@ -274,6 +275,7 @@ ul, menu, dir {
 #chart_div{
     transition: opacity 0.3s ease-out;
     height: 35%;
+    margin-top: 3%;
 }
 
 .glyphicon-refresh-animate {
@@ -301,7 +303,7 @@ ul, menu, dir {
     margin-top: 20%;
 }
 .countrylist {
-    margin-left: 86%;
+    margin-left: 89%;
     position: fixed;
     margin-top: 47.5%;
     width: auto;
@@ -310,36 +312,35 @@ ul, menu, dir {
     font-size: 11px;
     height: 33px;
 }
-.app-vertical-item {
-    margin-top: 46.5%;
-    margin-left: 63.5%;
-    transform: translateZ(0);
-}
 .widget-zoom-button.widget-zoom-in {
-    top: 0px;
+    top: 16px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+}
+.widget-zoom-button {
+    height: 21px;
+    left: 0px;
+    overflow: hidden;
+    position: fixed;
+    cursor: pointer;
+    width: 24px;
+    z-index: 2;
+    box-sizing: border-box;
+    transition: background-color 0.16s ease-out;
+}
+
+.app-vertical-item {
+    margin-top: 45.5%;
+    margin-left: 66.5%;
+    transform: translateZ(0);
+    position: fixed;
 }
 .widget-zoom-button.widget-zoom-out {
     bottom: -1px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
-.widget-zoom-button {
-    background-color: rgba(255,255,255,1);
-    border-radius: 2px;
-    display: block;
-    height: 29px;
-    left: 0px;
-    overflow: hidden;
-    position: absolute;
-    cursor: pointer;
-    width: 29px;
-    z-index: 2;
-    -webkit-appearance: button;
-    box-sizing: border-box;
-    transition: background-color 0.16s ease-out;
-}
+
 .widget-zoom-button.widget-zoom-in:hover .widget-zoom-icon {
     background-position: -30px 0;
 }
@@ -347,14 +348,17 @@ ul, menu, dir {
     background-position: 0 0;
 }
 .widget-zoom-button .widget-zoom-icon {
-    background: transparent url(/static/xantar_app/images/widget-zoom-icon.png) 0 0 no-repeat;
     background-size: 120px 30px;
     display: block;
     height: 15px;
     left: 7px;
     position: absolute;
+    border: 0px solid #ccc;
     top: 7px;
     width: 15px;
+}
+.fa {
+        color: gray;
 }
 .widget-zoom-button.widget-zoom-out .widget-zoom-icon {
     background-position: 0 -15px;
@@ -394,4 +398,351 @@ ul, menu, dir {
 }
 .widget-zoom {
     cursor: pointer;
+}
+#downloadlink{
+    margin-top: 44.5%;
+    margin-left: -89%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+}
+#marketingactivityreportbtn{
+    margin-top: 47.5%;
+    margin-left: -89%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;    
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+    -webkit-appearance: button;
+}
+#product_report{
+    border-radius: 0px;
+    margin-top: 3%;
+    height: 33px;
+    padding: 6px 12px;
+    font-size: 11px;
+}
+#advertisor_list{
+    width: auto;
+    border-radius: 0px;
+    padding: 0px;
+    margin-top: 3%;
+    font-size: 11px;
+}
+#globalreportbtn:hover,
+#marketingactivityreportbtn:hover,
+#reportbtn:hover,
+#product_report,
+#countrylist:hover{
+    opacity:1;
+}
+
+#loading{
+    margin-left: 67%;
+    margin-top: -6%;
+
+}
+/*Wizard CSS*/
+#accordion .collapsing, #accordion .collapse.in
+{
+  z-index: 20;
+  background-color:#fff;
+  width: 101%;
+  position: absolute;
+}
+.opencollapse{
+    margin-left:45%;
+}
+.top_menu {
+    padding: 5px 0px;
+}
+#collapseOne{
+    width: 100%;
+}
+
+.wizard {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+.wizard ul li:first-child {
+    border-radius: 4px 0 0 4px;
+    padding-left: 20px;
+}
+.wizard ul li.complete {
+    background: #bdea74;
+    color: white;
+}
+.wizard ul li:first-child {
+    -webkit-border-radius: 2px 0 0 2px;
+    -moz-border-radius: 2px 0 0 2px;
+    border-radius: 2px 0 0 2px;
+}
+.wizard ul li {
+    float: left;
+    margin: 0;
+    padding: 0 20px 0 30px;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    background: #f7f7f8;
+    color: #b2b8bd;
+    font-size: 16px;
+    cursor: default;
+}
+.wizard ul {
+    list-style: none outside none;
+    padding: 0;
+    margin: 0;
+    width: 4000px;
+}
+.wizard ul li.active {
+    background: #b2b8bd;
+    color: white;
+}
+.box-content {
+    padding: 10px;
+    margin-left: 2%;
+}
+.wizard ul li .chevron {
+    border: 48px solid transparent;
+    border-left: 28px solid white;
+    border-right: 0;
+    display: block;
+    position: absolute;
+    right: -14px;
+    top: -28px;
+    z-index: 1;
+}
+.wizard ul li .badge {
+    margin-right: 8px;
+}
+.wizard ul li .active .badge {
+    background: #67c2ef;
+}
+.panel-group {
+    margin-bottom: 0px; 
+    width: 100%;
+
+}
+/*File Uploader css*/
+.close{
+    font-weight: 100;
+    position:relative;
+    top: 1px;
+}
+.clearfix {
+    *zoom:1;
+}
+.clearfix:before,.clearfix:after {
+    display:table;
+    content:"";
+    line-height:0;
+}
+.clearfix:after {
+    clear:both;
+}
+.hide-text {
+    font:0/0 a;
+    color:transparent;
+    text-shadow:none;
+    background-color:transparent;
+    border:0;
+}
+.input-block-level {
+    display:block;
+    width:100%;
+    min-height:30px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+.btn-file {
+    overflow:hidden;
+    position:relative;
+    vertical-align:middle;
+    margin-left: -19%;
+    margin-top: 25%;
+}
+.btn-file>input {
+    position:absolute;
+    top:0;
+    right:0;
+    margin:0;
+    opacity:0;
+    filter:alpha(opacity=0);
+    transform:translate300px,0) scale(4);
+    font-size:23px;
+    direction:ltr;
+    cursor:pointer;
+}
+#result{
+    margin-top: 10%;
+}
+#upload_file{
+    margin-top: 25%;
+    margin-left: 577%;
+}
+#result .progress{
+    margin-top: 2%;
+    margin-left: 1%;
+}
+#choose_file_val{
+    margin: -27px 123px -14px;
+}
+#success .fa{
+    margin-top: -44%;
+    margin-left: 682%;
+    color: #3DA73D;
+}
+#btn-file,
+#result,
+#success{
+    margin-left:-5%;
+    margin-top: 5%;
+}
+#result .well {
+    border-style: solid;
+    margin-left: 5%;
+    border-radius: 1px !important;
+}
+#nextpane{
+    margin-top: 5%;
+}
+#prev{
+    margin-left: -2%;
+}
+#maptable{
+    border-top: 0px;
+    border-bottom: 0px;
+    font-size: 15px;
+    font-weight: 200;
+}
+.table>tbody>tr>td{
+    padding: 3px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px;
+}
+.table>tbody>tr>td>label{
+    font-weight: 200;
+}
+.selectpicker{
+    padding: 3px 12px;
+    border-radius: 1px;
+}
+.table>thead>tr>th{
+    border-bottom: 0px;
+}
+#add_select{
+    margin-top: 0%;
+    margin-left: 1%;
+}
+#table_col_head{
+    width: 217px;
+}
+#status_icon{
+    margin-left: 10%;
+    margin-top: -32px;
+}
+#add_icon{
+    text-decoration: none;
+}
+#mapping_success_icon{
+    margin-left: 45%;
+    margin-top: -3%;
+    color: green;
+}
+.multiselect-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+sup { 
+    vertical-align: super;
+    font-size: 12px;
+    color: red;
+}
+#note{
+    font-size: 11px;
+}
+#note sup{
+    font-size: 8px;
+}
+#contentstep3{
+    text-align: -webkit-left;
+    border-style: hidden;
+    opacity: 0.8;
+    transition: opacity 0.3s ease-out;
+    background-color: white;
+    margin-bottom: 0px;
+    margin-left: 1%;
+    border-width: 16%;
+    width: 96%;
+}
+.status_title{
+    margin-left: 1%;
+    margin-top: 2%;
+}
+#globalreportbtn {
+    margin-top: 47.5%;
+    margin-left: -72%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+    -webkit-appearance: button;
+}
+#globalreportbtn .fa {
+    color: white;
+}
+#downloadlinkglobal{
+    margin-top: 44.5%;
+    margin-left: -72%;
+    z-index: 5;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 0px;
+    height: 33px;
+    position: fixed;
+    opacity: .8;
+    border-radius: 0px;
+}
+/*Growl Notification*/
+#notification {
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 5px;
+}
+[data-notify="progressbar"] {
+    margin-bottom: 0px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 5px;
 }

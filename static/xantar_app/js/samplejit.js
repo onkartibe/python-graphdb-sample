@@ -17,9 +17,16 @@ var initial_data_bar_chart =[
 
 (function() {
     data = {
-        country_id: 7146,
+        country_id: 14955,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
+    $('#zi').on('click', function () {
+        graph_zoom_in(100);
+    });
+
+    $('#zo').on('click', function () {
+        graph_zoom_out(100);
+    });
     var csrftoken = getCookie('csrftoken');
     $.ajax({
         type: 'POST',
@@ -77,12 +84,20 @@ function getCookie(name) {
 
 function init() {
     //init data
-    updatebubblechart();
+    google.load('visualization', '1', {packages: ['corechart']});
+    chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+    bubble_data = new google.visualization.DataTable();
+    bubble_data.addColumn('string','Country');
+    bubble_data.addColumn('number','Advertisor');
+    bubble_data.addColumn('number','Product');
+    // updatebubblechart(0,1);
+   $('#loading').append('<h7>Loading...</h7>'+0+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+
     var json = {
         id: "7146",
         name: "US",
         children: [{
-            id: "7145",
+            id: "30131",
             name: "US &amp;Chevrolet",
             data: {
                 type: "1",
@@ -628,8 +643,7 @@ function init() {
                                 $('#eachnode-details').empty();
                                 $('#eachnode-head').empty();
                                 if (node.data.type == 0) {
-                                    $('#chart_div').empty();
-                                    updatebubblechart();
+                                    updatebubblechart(0,1);
                                     $('#eachnode-head').append("Node Name " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "CountryData" + "<br>");
                                     $('#eachnode-details').append('Product Count' + " : " + data['product_count'] + "<br>");
@@ -639,6 +653,12 @@ function init() {
                                     $('#eachnode-details').append('BrandName' + " : " + data['product_brand_name'] + "<br>");
                                     $('#eachnode-details').append('BrandCode' + " : " + data['product_brand_code'] + "<br>");
                                     $('#eachnode-details').append('Advertisor Count' + " : " + data['advertisor_count'] + "<br>");
+                                    $('#eachnode-details').append('<div class="col-md-12"><select class="form-control" id="advertisor_list"></select></br>'+
+                                        '<input type="radio" name="filetype_product" value="CSV">CSV&nbsp;'+
+                                      '<input type="radio" name="filetype_product" value="EXCEL">EXCEL&nbsp;'+
+                                      '<input type="radio" name="filetype_product" value="PDF">PDF</div>')
+                                    populateadvertisors(data['advertisor_list']);
+                                    $('#eachnode-details').append('<button class ="btn btn primary" id="product_report" onclick="get_productmarketing_activity_report('+data["product_brand_code"]+')"><i class="fa fa-file-pdf-o"></i>&nbsp; Advertisement Report</button>');
                                 } else if (node.data.type == 2) {
                                     $('#eachnode-head').append("Node Name  " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "AdvertisorData" + "<br>");
@@ -646,6 +666,8 @@ function init() {
                                     $('#eachnode-details').append('Advertisor Name' + " : " + data['advertisor_name'] + "<br>");
                                     $('#eachnode-details').append('Advertisment Count' + " : " + data['advertisementdata_count'] + "<br>");
                                 } else {
+                                    $('#chart_div').empty();
+
                                     data_old = google.visualization.arrayToDataTable(initial_data_bar_chart);
                                     chart = new google.visualization.BarChart(document.getElementById('chart_div'));
                                     new_data = google.visualization.arrayToDataTable([
@@ -667,7 +689,6 @@ function init() {
 
                                     chart.draw(data_old, options);
                                     chart.draw(new_data, options);
-
                                     $('#eachnode-head').append("Node Name " + node.name + "<br>");
                                     $('#eachnode-head').append('Node Type' + " : " + "AdvertismentData" + "<br>");
                                     $('#eachnode-details').append('Data Month' + " : " + data['data_month'] + "<br>");
@@ -743,10 +764,12 @@ function init() {
     $jit.id('inner-details').innerHTML = rgraph.graph.getNode(rgraph.root).data.relation;
 }
 
-function updatebubblechart()
-{
-    google.load('visualization', '1', {packages: ['corechart']});
+function updatebubblechart(count,count1)
+{   
+    chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
     data = {
+        range1 :count,
+        range2 : count1,
         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
     }
     var csrftoken = getCookie('csrftoken');
@@ -755,19 +778,18 @@ function updatebubblechart()
         url: '/get/country/details/',
         data: JSON.stringify(data),
         beforeSend: function(xhr, settings) {
-            $('#chart_div').empty();
-            $('#chart_div').append('<div class="col-md-12 text-center">'+'Loading...'+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span></div>');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
         success: function(data) {
-            new_data = google.visualization.arrayToDataTable(data)
+            $('#loading').empty();
+            bubble_data.addRows(data['country_data']);
             var options = {
             title: 'Region Wise Marketing Activity Rate',
             vAxis: {
                     title: 'Product Count',
                     viewWindow: {
-                            max: new_data.getColumnRange(2).max+100,
-                            min: new_data.getColumnRange(2).min-20}
+                            max: bubble_data.getColumnRange(2).max+100,
+                            min: bubble_data.getColumnRange(2).min-20}
                     },
             chartArea:{
                     width: '80%',
@@ -776,8 +798,8 @@ function updatebubblechart()
             hAxis: {
                      title : 'Advertisor Count',
                      viewWindow: {
-                        max: new_data.getColumnRange(1).max+100,
-                        min:new_data.getColumnRange(1).min-20},
+                        max: bubble_data.getColumnRange(1).max+100,
+                        min:bubble_data.getColumnRange(1).min-20},
                      gridlines: {count:-1}
                     },
             bubble: {
@@ -796,9 +818,61 @@ function updatebubblechart()
                     actions: ['dragToPan','dragToZoom','rightClickToReset']
                     }
             };
-            var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
-            chart.draw(new_data, options);
-            console.log(data);
+            chart.draw(bubble_data, options);
+            countn1 =count + 1;
+            countn2 = count1 + 1;
+            $('#loading').append('<h7>Loading...</h7>'+(((count1/data['country_count'])*100).toPrecision(2))+"%"+'<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>');
+            if (countn1 <= data['country_count'] && countn2 <= data['country_count']){
+                updatebubblechart(countn1,countn2);
+            }
+            else{
+                $('#loading').fadeOut('slow');
+            }
+        },
+        error:function(){
+            
         }
     });
+}
+
+function graph_zoom_in(x) {
+            var levelDistance = rgraph.config.levelDistance + x;
+            if ( levelDistance > 300)
+            {
+                $('#zi').prop('disabled', true);
+            }
+            else{
+            $('#zo').prop('disabled', false);
+            rgraph.config.levelDistance = levelDistance; 
+            rgraph.compute(); 
+            rgraph.plot();
+            }
+}
+
+function graph_zoom_out(x) { 
+            var levelDistance = rgraph.config.levelDistance - x;
+            if (levelDistance < 100)
+            {   
+                $('#zo').prop('disabled', true);
+            }
+            else{
+            $('#zi').prop('disabled', false);
+            rgraph.config.levelDistance = levelDistance 
+            rgraph.compute(); 
+            rgraph.plot();
+            }
+} 
+function populateadvertisors(list){
+        select = document.getElementById('advertisor_list');
+        var opt = document.createElement('option');
+            opt.value = 'All';
+            opt.innerHTML = 'All';
+            select.appendChild(opt);
+        for (var i in list)
+        {
+            var opt = document.createElement('option');
+            opt.value = list[i];
+            opt.innerHTML = list[i];
+            select.appendChild(opt);
+        }
 }

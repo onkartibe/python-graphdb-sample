@@ -1,6 +1,7 @@
 # # Create your models here.
 from neo4django.db import models
 
+
 class Country(models.NodeModel):
     country = models.StringProperty()
     region = models.Relationship('self', rel_type='friends_with')

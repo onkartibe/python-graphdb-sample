@@ -1,117 +1,301 @@
 <html>
-<head>
+   <head>
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <link rel="stylesheet" type="text/css" href="static/xantar_app/css/bootstrap-multiselect.css">
+      <link rel="stylesheet" href="static/xantar_app/css/base.css" />
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/xantar_app/css/base.css" />
-    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/spinner.css" type="text/css">
-</head>
-
-<body onload="init();" id="body">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-md-12">
-            <div style="margin-left: -85%;">
-                <img src="static/xantar_app/images/kantar2.png" alt="Kantar" class="logoimg">
-                <select class="form-control logoimg countrylist">
-                     {% for each in country_list %}
-                      <option class="btn-default" value="{{each}}">
-                      {{each}}
-                      </option>
-                    {% endfor %}
-                </select>
+   </head>
+   <body onload="init();" id="body">
+      {% csrf_token %}
+      <div class="row">
+      <div class="panel-group" id="accordion">
+         <div class="panel panel-default">
+            <div class="panel-heading top_menu">
+               <h4 class="panel-title">
+                  <a class="accordion" data-toggle="collapse" data-parent="#accordion" href="#slider">
+                  <i class="fa fa-align-justify fa-lg opencollapse" id="open_collapse"></i>
+                  </a>
+               </h4>
             </div>
-            <div id="container">
-                <div id="center-container">
-                    <div id="infovis"></div>
-                </div>
-                <div id="log"></div>
-            </div>
-        </div>
-        <div class="col-md-4 pull-right sidecontainer" style="height: 100%;">
-            <div class="row">
-               <div class="rubix-panel-container" style="z-index:9999995;overflow:;display:block;height:auto;" data-reactid="">
-                <div class="rubix-panel-header bg-lightpurple fg-white" data-reactid="">
-                    <div class="rubix-grid container-fluid" style="z-index:9999977;" data-reactid="">
+            <div class="panel-collapse collapse" id="slider">
+               <div class="panel-body">
+                  <div class="row">
+                     <div class="box-content">
                         <div class="row">
-                            <div class="col-xs-12">
-                                <h4>
-                                    Graph Details
-                                </h4>
-                            </div>
-                            <div class="col-xs-12">
-                                <div id="chart_div" class="well">
-                                </div>
-                            </div>
+                           <div id="MyWizard" class="wizard">
+                              <ul class="steps">
+                                 <div class="col-sm-1">
+                                    <li id="step1tag" data-target="#step1" class="active"><span class="badge badge-success">1</span><span class="chevron"></span>Step 1</li>
+                                 </div>
+                                 <div class="col-sm-1">
+                                    <li id="step2tag" data-target="#step2"><span class="badge badge-success">2</span><span class="chevron"></span>Step 2</li>
+                                 </div>
+                                 <div class="col-sm-1">
+                                    <li id="step3tag" data-target="#step3"><span class="badge badge-success">3</span><span class="chevron"></span>Step 3</li>
+                                 </div>
+                              </ul>
+                              <div class="actions">
+                                 <button type="button" class="btn btn-prev" id="prev"> <i class="fa fa-arrow-left"></i> Prev</button>
+                                 <button type="button" class="btn btn-success btn-next" data-last="Finish" disabled id="finish">Finish<i class="fa fa-arrow-right"></i></button>
+                              </div>
+                           </div>
                         </div>
-                    </div>
-                        <ul class="nav nav-tabs nav-purple" role="tablist">
-                            <li class="b-tab active">
-                                <a href="#id_relation" role="tab" data-toggle="tab">Node Relationships</a>
-                            </li>
-                            <li class="b-tab">
-                                <a href="#id_details" role="tab" data-toggle="tab">Node Details</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="id_relation">
-                                <div id="nodedetails" class="well">
-                                    <div class="row">
-                                        <div class="col-xs-10">
-                                            <h6 align="left"><b>Relationship Details</b></h6>
-                                            <div id="inner-details">
-                                            </div>
+                        <div class="row">
+                           <div class="step-content">
+                              <div class="step-pane active well" id="step1">
+                                 <div class="row">
+                                    <div class="col-md-12">
+                                       <h2>Upload CSV File to map with global fields</h2>
+                                    </div>
+                                 </div>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                    <form id="fileupload" enctype="multipart/form-data">
+                                       <div id="result">
+                                          <div class="well">
+                                             <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                                </div>
+                                             </div>
+                                             <br>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-2">
+                                          <span class="btn btn-default btn-file">Choose File
+                                          <input id="choose_file" type="file" multiple onchange="getFileData(this);"/>
+                                          </span>
+                                          <p id="choose_file_val"></p>
+                                       </div>
+                                       <div class="col-md-2">
+                                          <button type="button" onclick="getfileprogress()" class="btn btn-primary" id="upload_file">Upload</button>
+                                          <div id="success" style="display:none;">
+                                             <i class="fa fa-check-circle fa-2x"></i>
+                                          </div>
+                                       </div>
+                                    </form>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="step-pane" id="step2" style="display:none;">
+                                 <div class="row">
+                                    <div class="col-md-12" id="mapping_success">
+                                       <h2>Map File Fields to universal Kantar fields</h2>
+                                    </div>
+                                 </div>
+                                 <p id="note"><b>Note:</b>Fields marked with <sup>*</sup> are mandatory fields.
+                                 Click <i class="fa fa-plus-circle"></i> to get more fields</p>
+                                 <div class="row">
+                                    <div class="well">
+                                        <div class="col-md-6" id="firsttablecol">
+                                           <table id="maptable" class="table table-hover table-condensed table-responsive">
+                                              <thead>
+                                                 <tr>
+                                                    <th id="table_col_head">Global Fields</th>
+                                                    <th id="table_col_head">File Fields</th>
+                                                 </tr>
+                                              </thead>
+                                              <tbody id="table_body">
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistCountry" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistCountry" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td>
+                                                           <select id="globallistAdvName" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistAdvName" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistCurrency" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistCurrency" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistBrandName" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistBrandName" onchange="get_mandatory_field_status()"></select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                           <select id="globallistBrandCode" disabled class="btn btn-default">
+                                                           </select><sup>*</sup>
+                                                        </td>
+                                                        <td>
+                                                            <select class="btn btn-default scroll" size="5" id="locallistBrandCode" onchange="get_mandatory_field_status()"></select>
+                                                            <a href="#" id ="add_icon">
+                                                            <i class="fa fa-plus-circle" id="add_select"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                              </tbody>
+                                           </table>
                                         </div>
-                                        <div class="col-xs-2">
-                                            <div class="scrollbar" id="style3">
-                                                <div class="force-overflow"></div>
-                                            </div>
+                                        <div class="col-md-6" id="secondtablecol">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="id_details">
-                                <div class="well">
-                                    <div class="row">
-                                        <div class="col-md-6 custcol">
-                                            <div id="eachnode-img">
-                                                <img src="static/xantar_app/images/car.jpg" height="50" width="50">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 ">
-                                            <div id="eachnode-head" class="details">
-                                            </div>
-                                        </div>
-                                    </div>  
-                                    <div class="row">
-                                        <div id="eachnode-details" class="details">
-                                        </div>
+                                 </div>
+                              </div>
+                              <div class="step-pane" id="step3">
+                                    <div class="col-md-12 well" id="contentstep3" style="display:none;">
                                     </div>
-                                </div>
-                            </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
-                </div>
+                  </div>
+               </div>
             </div>
-        </div>
-        <div id="zoom" class="app-vertical-item">
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-12">
+            <div style="margin-left: -85%;">
+               <img src="static/xantar_app/images/kantar2.png" alt="Kantar" class="logoimg">
+               <select class="form-control logoimg countrylist" id="select_country_list">
+                  {% for each in country_list %}
+                  <option class="btn-default" value="{{each.id}}">
+                     {{each.country}}
+                  </option>
+                  {% endfor %}
+               </select>
+            </div>
+            <div id="container">
+               <div id="center-container">
+                  <div id="infovis"></div>
+               </div>
+               <div id="log"></div>
+            </div>
+         </div>
+         <div class="col-md-4 pull-right sidecontainer" style="height: 100%;">
+            <div class="row">
+               <div class="rubix-panel-container" style="z-index:9999995;overflow:;display:block;height:auto;" data-reactid="">
+                  <div class="rubix-panel-header bg-lightpurple fg-white" data-reactid="">
+                     <div class="rubix-grid container-fluid" style="z-index:9999977;" data-reactid="">
+                        <div class="row">
+                           <div class="col-xs-12">
+                              <h4>
+                                 Graph Details
+                              </h4>
+                              <div id="loading">
+                              </div>
+                           </div>
+                           <div class="col-xs-12">
+                              <div id="chart_div" class="well">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <ul class="nav nav-tabs nav-purple" role="tablist">
+                        <li class="b-tab active">
+                           <a href="#id_relation" role="tab" data-toggle="tab">Node Relationships</a>
+                        </li>
+                        <li class="b-tab">
+                           <a href="#id_details" role="tab" data-toggle="tab">Node Details</a>
+                        </li>
+                     </ul>
+                     <div class="tab-content">
+                        <div class="tab-pane active" id="id_relation">
+                           <div id="nodedetails" class="well">
+                              <div class="row">
+                                 <div class="col-xs-10">
+                                    <h6 align="left"><b>Relationship Details</b></h6>
+                                    <div id="inner-details">
+                                    </div>
+                                 </div>
+                                 <div class="col-xs-2">
+                                    <div class="scrollbar" id="style3">
+                                       <div class="force-overflow"></div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane fade" id="id_details">
+                           <div class="well">
+                              <div class="row">
+                                 <div class="col-md-6 custcol">
+                                    <div id="eachnode-img">
+                                       <img src="static/xantar_app/images/car.jpg" height="50" width="50">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6 ">
+                                    <div id="eachnode-head" class="details">
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div id="eachnode-details" class="details">
+                                 </div>
+                                 <div id="report_progress" class="details">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id='download'></div>
+         <button class="btn btn-default" id="marketingactivityreportbtn" data-toggle="popover" data-html="true" data-placement="top" data-toggle="popover" rel="popover" data-content="
+         <div id='optionfileselect'>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='CSV'>
+          CSV<br>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='EXCEL'>
+          EXCEL<br>
+          <input type='radio' name='filetype' onclick='get_marketing_activity_report(this)' value='PDF'>
+          PDF </div>" data-original-title="Select file type">
+         <i class="fa fa-file-pdf-o"></i>&nbsp;
+         Marketing-Activity Report</button>
+         <div id="downloadglobal"></div>
+         <button class="btn btn-danger" id="globalreportbtn" data-toggle="popover" data-toggle="popover" data-html="true" data-placement="top" data-toggle="popover" rel="popover" data-content="
+         <div id='optionfileselect'>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='CSV'>
+          CSV<br>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='EXCEL'>
+          EXCEL<br>
+          <input type='radio' name='filetype' onclick='get_globalmarketing_activity_report(this)' value='PDF'>
+          PDF </div>" data-original-title="Select file type">
+         <i class="fa fa-file-pdf-o"></i>&nbsp;
+         Global Marketing Activity Report</button>
+         <div id="zoom" class="app-vertical-item">
             <div class="widget-zoom noselect widget-zoom-slider-invisible" > 
             </div>
-            <button aria-label="Zoom in" class="widget-zoom-button widget-zoom-in"> <div class="widget-zoom-icon"></div> 
+            <button aria-label="Zoom in" id="zi" class="widget-zoom-button widget-zoom-in"><span class="fa fa-plus"></span>
             </button>
-            <div class="widget-zoom-slider-seek-bar widget-zoom-slider-seek-bar-bootstrap">
-                <div role="presentation" class="widget-zoom-slider-seek-bar-hit-zone grabbing-cursor">
-                </div> 
-                <a oncontextmenu="return false;" role="slider" tabindex="0" href="javascript:void(0);" class="widget-zoom-slider-scrubber grab-cursor grabbing-cursor" style="display:none"> </a> </div>
-            <button aria-label="Zoom out" class="widget-zoom-button widget-zoom-out"> <div class="widget-zoom-icon"></div> </button>
-        </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="static/xantar_app/js/samplejit.js"></script>
-    <script src="static/xantar_app/js/jit.js"></script>
-    <script src="static/xantar_app/js/jit-yc.js"></script>
-    <script src="static/xantar_app/js/jsapi.js"></script>
-    <script src="static/xantar_app/js/barjs.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</body>
+            <button aria-label="Zoom out" id="zo" class="widget-zoom-button widget-zoom-out"> <span class="fa fa-minus"></span> </button>
+         </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="static/xantar_app/js/jit.js"></script>
+      <script src="static/xantar_app/js/jit-yc.js"></script>
+      <script src="static/xantar_app/js/jsapi.js"></script>
+      <script src="static/xantar_app/js/samplejit.js"></script>
+      <script src="static/xantar_app/js/barjs.js"></script>
+      <script src="static/xantar_app/js/fileuploader.js"></script>
+      <script src="static/xantar_app/js/bootstrap-notify.js"></script>
+      <script src="static/xantar_app/js/samplejit.js"></script>
+      <script src="static/xantar_app/js/bootstrap-multiselect.js"></script>
+      <script src="static/xantar_app/js/marketingactivityreport.js"></script>
+      <script src="http://hayageek.github.io/jQuery-Upload-File/4.0.8/jquery.uploadfile.min.js"></script>
+   </body>
 </html>
