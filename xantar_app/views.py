@@ -273,7 +273,8 @@ class ManageMarketingActivityData(TemplateView):
             temp = []
             for neach in each.prod_data.all():
                 adv_count.append(neach.adv_data.all().count())
-            temp = [each.country, sum(adv_count), len(list(each.prod_data.all()))]
+            temp = [each.country, sum(adv_count), len(list(each.prod_data.all().distinct()))]
             data.append(temp)
         response_dict = {'country_data': data, 'country_count': country_count}
+        print response_dict
         return HttpResponse(json.dumps(response_dict), content_type='application/json')

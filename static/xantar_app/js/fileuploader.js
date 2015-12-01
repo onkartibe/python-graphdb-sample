@@ -9,7 +9,6 @@ MANDATORY_FIELDS = ['COUNTRY', 'BRAND_NAME', 'ADV_NAME', 'CURRENCY','BRAND_CODE'
 GLOBAL_FIELDS = $.merge( $.merge([],STR_FIELDS), NON_STR_FIELDS );
 OPTIONAL_FIELDS = $(GLOBAL_FIELDS).not(MANDATORY_FIELDS).get();
 list_temp = ['#locallistCountry','#locallistBrandCode','#locallistBrandName','#locallistAdvName','#locallistCurrency']
-locallistopt = GLOBAL_FIELDS.slice(0);
 copy_GLOBAL_FIELDS = OPTIONAL_FIELDS.slice(0);
 active = 'globallist';
 flag_upload=0;
@@ -17,35 +16,36 @@ flag_map=0;
 flag_map_div =0;
 flag_multiple =0;
 
-function populatedropdown(){
+function populatedropdown(filefields){
+    locallistopt = filefields.slice(0);
     $('#globallistCountry').append('<option value='+0+'>'+'COUNTRY'+'</option>');
-    $.each(locallistopt, function (i, el) {
+    $.each(filefields, function (i, el) {
         $('#locallistCountry').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistBrandCode').append('<option value='+0+'>'+'BRAND_CODE'+'</option>');
-    $.each(locallistopt, function (i, el) {
+    $.each(filefields, function (i, el) {
         $('#locallistBrandCode').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistBrandName').append('<option value='+0+'>'+'BRAND_NAME'+'</option>');
-    $.each(locallistopt, function (i, el) {
+    $.each(filefields, function (i, el) {
         $('#locallistBrandName').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistAdvName').append('<option value='+0+'>'+'ADV_NAME'+'</option>');
-    $.each(locallistopt, function (i, el) {
+    $.each(filefields, function (i, el) {
         $('#locallistAdvName').append('<option value='+i+'>'+el+'</option>');
     });
 
     $('#globallistCurrency').append('<option value='+0+'>'+'CURRENCY'+'</option>');
-    $.each(locallistopt, function (i, el) {
+    $.each(filefields, function (i, el) {
         $('#locallistCurrency').append('<option value='+i+'>'+el+'</option>');
     });
     $.each(list_temp, function (i, el) {
        $(el).multiselect({
         includeSelectAllOption: true
-    });
+        });
     });
     list_temp.splice(0,list_temp.length)
 }
@@ -56,7 +56,6 @@ function getfileprogress(){
     loaded = 0;
     var fileReader = new FileReader();
     fileReader.readAsBinaryString(Files);
-    alert(fileReader);
     fileReader.onload = function(e) {
         upload_file_contents(e.target.result);
         loaded++;
@@ -71,7 +70,6 @@ function getfileprogress(){
                 $('#success').css("display", "block");
                 $('#finish').prop("disabled", false);
                 $('#prev').prop("disabled", true);
-                populatedropdown();
                 flag_upload = 1;
             }
         }
@@ -232,13 +230,19 @@ function upload_file_contents(content){
     $.ajax({
         url:"/file/upload/",
         type: "POST",
-        data :{'file':$('#choose_file').val(),'file_data':content},
+        data :{
+               'file':$('#choose_file').val(),
+               'file_data':content
+              },
         beforeSend: function(xhr, settings) {
-              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         },
         success:function(response){
-            console.log(response);
-       },
+            populatedropdown(response);
+
+            console.log("Succesfully File uploaded");
+            console.log("Local file fields"+response);
+        },
         error:function(response){
             console.log(response);
         }

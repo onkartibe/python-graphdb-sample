@@ -341,7 +341,7 @@ function notifyuser (link,notification_template,message) {
   spacing: 10,
   opacity: .7,
   delay: 5000,
-  timer: 10000,
+  timer: 100000,
   url_target: '_blank',
   mouse_over: null,
   animate: {

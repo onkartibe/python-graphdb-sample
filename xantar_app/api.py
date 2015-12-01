@@ -1,7 +1,7 @@
 import csv
 import json
 import os
-
+import re
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A1, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
@@ -148,7 +148,7 @@ def upload_file(request):
     filename = splitfilepath[-1]
     filepath = os.path.join(settings.MEDIA_ROOT,'report_data')
     try:
-        print os.stat(filepath)
+        os.stat(filepath)
     except:
         os.mkdir(filepath)
     abs_path = os.path.join(filepath, filename)
@@ -156,12 +156,19 @@ def upload_file(request):
     for chunk in file_data:
         destination.write(chunk)
     destination.close()
-    return HttpResponse("File successfully uploaded")
+    return populate_file_fields_dropdown(request,abs_path)
 
-def clean_file(request,destination):
-    with open(str(destination),"wb+") as file_data:
-        for line in file_data.readlines():
-            if line.rstrip():
-                print line
-    file_data.close()
-    return HttpResponse("Cleaning file done")
+def populate_file_fields_dropdown(request,destination):
+    header_list = []
+    with open(str(destination),"rb+") as file_data:
+        file_data.seek(0,0)
+        flag = None
+        for row in csv.reader(file_data, delimiter=';'):
+            for cell in row:
+                if cell.strip().replace(',', '') != '':
+                    flag = 1
+                    print 
+            if flag:
+                header_list =[i for i in list(row[0].split(',')) if i!='']
+                break
+    return HttpResponse(json.dumps(header_list),content_type="application/json")
